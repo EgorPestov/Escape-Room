@@ -1,6 +1,6 @@
 import { QuestCard } from '../quest-card.tsx/quest-card';
 import { useAppSelector } from '../../hooks/useAppSelector/useAppSelector';
-import { getQuests } from '../../store/quests-process.ts/selectors';
+import { getQuests } from '../../store/quests-process/selectors';
 
 export const QuestsList = () => {
   const quests = useAppSelector(getQuests);

@@ -8,6 +8,7 @@ export type QuestsProcessType = {
   activeSortByGenreType: GenreSortTypeValues;
   activeSortByLevelType: LevelSortTypeValues;
   quests: QuestType[];
+  backupQuests: QuestType[];
   fullQuest: FullQuestType | null;
   isFullQuestLoading: boolean;
   isQuestsLoading: boolean;
@@ -17,9 +18,10 @@ export type QuestsProcessType = {
 export const initialState: QuestsProcessType = {
   activePage: 'квесты',
   activeId: null,
-  activeSortByGenreType: 'все квесты',
+  activeSortByGenreType: 'Все квесты',
   activeSortByLevelType: 'любой',
   quests: mockQuests,
+  backupQuests: mockQuests,
   fullQuest: null,
   isFullQuestLoading: false,
   isQuestsLoading: true,
@@ -39,6 +41,9 @@ export const questsProcessSlice = createSlice({
     setQuests: (state, action: PayloadAction<QuestType[]>) => {
       state.quests = action.payload;
     },
+    setBackupQuests: (state, action: PayloadAction<QuestType[]>) => {
+      state.quests = action.payload;
+    },
     setQuestsLoadStatus: (state, action: PayloadAction<boolean>) => {
       state.isQuestsLoading = action.payload;
     },
@@ -53,48 +58,54 @@ export const questsProcessSlice = createSlice({
     },
     sortQuestsByLevel: (state, action: PayloadAction<LevelSortTypeValues>) => {
       state.activeSortByLevelType = action.payload;
-      const allQuests = state.quests;
       switch (state.activeSortByLevelType) {
         case LevelSortTypes.all:
-          state.quests = allQuests;
+          state.quests = state.backupQuests;
           break;
         case LevelSortTypes.easy:
-          state.quests.filter((quest) => quest.level === 'easy');
+          state.quests = state.backupQuests;
+          state.quests = state.quests.filter((quest) => quest.level === 'easy');
           break;
         case LevelSortTypes.medium:
-          state.quests.filter((quest) => quest.level === 'medium');
+          state.quests = state.backupQuests;
+          state.quests = state.quests.filter((quest) => quest.level === 'medium');
           break;
         case LevelSortTypes.hard:
-          state.quests.filter((quest) => quest.level === 'hard');
+          state.quests = state.backupQuests;
+          state.quests = state.quests.filter((quest) => quest.level === 'hard');
           break;
       }
     },
     sortQuestsByGenre: (state, action: PayloadAction<GenreSortTypeValues>) => {
       state.activeSortByGenreType = action.payload;
-      const allQuests = state.quests;
       switch (state.activeSortByGenreType) {
-        case GenreSortTypes.all:
-          state.quests = allQuests;
+        case GenreSortTypes['all-quests']:
+          state.quests = state.backupQuests;
           break;
-        case GenreSortTypes.adventures:
-          state.quests.filter((quest) => quest.type === 'adventures');
+        case GenreSortTypes['adventures']:
+          state.quests = state.backupQuests;
+          state.quests = state.quests.filter((quest) => quest.type === 'adventures');
           break;
-        case GenreSortTypes.detective:
-          state.quests.filter((quest) => quest.type === 'detective');
+        case GenreSortTypes['detective']:
+          state.quests = state.backupQuests;
+          state.quests = state.quests.filter((quest) => quest.type === 'detective');
           break;
-        case GenreSortTypes.horror:
-          state.quests.filter((quest) => quest.type === 'horror');
+        case GenreSortTypes['horror']:
+          state.quests = state.backupQuests;
+          state.quests = state.quests.filter((quest) => quest.type === 'horror');
           break;
-        case GenreSortTypes.mystic:
-          state.quests.filter((quest) => quest.type === 'mystic');
+        case GenreSortTypes['mystic']:
+          state.quests = state.backupQuests;
+          state.quests = state.quests.filter((quest) => quest.type === 'mystic');
           break;
         case GenreSortTypes['sci-fi']:
-          state.quests.filter((quest) => quest.type === 'sci-fi');
+          state.quests = state.backupQuests;
+          state.quests = state.quests.filter((quest) => quest.type === 'sci-fi');
           break;
       }
     },
   }
 });
 
-export const { setActivePage, setActiveId, setError, setQuests, setQuestsLoadStatus,
+export const { setActivePage, setActiveId, setError, setQuests, setBackupQuests, setQuestsLoadStatus,
   setFullQuest, setFullQuestLoadStatus, sortQuestsByLevel, sortQuestsByGenre } = questsProcessSlice.actions;

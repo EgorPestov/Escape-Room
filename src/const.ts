@@ -20,12 +20,12 @@ export type LevelSortTypeValues = typeof LevelSortTypes[keyof typeof LevelSortTy
 export const LevelSortValues = Object.values(LevelSortTypes);
 
 export const GenreSortTypes = {
-  all: 'все квесты',
-  adventures: 'приключения',
-  horror: 'ужасы',
-  mystic: 'мистика',
-  detective: 'детектив',
-  'sci-fi': 'sci-fi',
+  'all-quests': 'Все квесты',
+  'adventures': 'Приключения',
+  'horror': 'Ужасы',
+  'mystic': 'Мистика',
+  'detective': 'Детектив',
+  'sci-fi': 'Sci-fi',
 } as const;
 
 export type GenreSortTypeValues = typeof GenreSortTypes[keyof typeof GenreSortTypes];
