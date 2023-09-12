@@ -6,6 +6,7 @@ import { NotFound } from '../../pages/404/404';
 import { Login } from '../../pages/login/login';
 import { Contacts } from '../../pages/contacts/contacts';
 import { MyQuests } from '../../pages/my-quests/my-quests';
+import { Quest } from '../../pages/quest/quest';
 
 
 export const App = () => (
@@ -13,33 +14,31 @@ export const App = () => (
     <Routes>
       <Route
         path={AppRoute.Root}
-        element={
-          <Main />
-        }
+        element={<Main />}
+      />
+      <Route
+        path={`${AppRoute.Quest}/:id`}
+        element={<Quest />}
+      />
+      <Route
+        path={`${AppRoute.Quest}/:id`}
+        element={<Quest />}
       />
       <Route
         path={AppRoute.Login}
-        element={
-          <Login />
-        }
+        element={<Login />}
       />
       <Route
         path={AppRoute.Contacts}
-        element={
-          <Contacts />
-        }
+        element={<Contacts />}
       />
       <Route
         path={AppRoute.MyQuests}
-        element={
-          <MyQuests />
-        }
+        element={<MyQuests />}
       />
       <Route
         path='*'
-        element={
-          <NotFound />
-        }
+        element={<NotFound />}
       />
     </Routes>
   </HelmetProvider>
