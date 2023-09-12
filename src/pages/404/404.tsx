@@ -5,13 +5,13 @@ import { AppRoute } from '../../const';
 export const NotFound = () => (
   <div data-testid="not-found-page">
     <Helmet>
-      <title>404: Not found</title>
+      <title>404</title>
     </Helmet>
     <h1>
       404.
       <br />
-      <small>Page not found</small>
+      <small>Страница не найдена</small>
     </h1>
-    <Link to={AppRoute.Root}>Go to main page</Link>
+    <Link to={AppRoute.Root}>Вернуться на главную</Link>
   </div>
 );

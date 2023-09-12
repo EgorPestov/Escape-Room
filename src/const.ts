@@ -2,6 +2,7 @@ export const AppRoute = {
   Root: '/',
   Login: '/login',
   Quest: '/quest',
+  Booking: '/booking',
   MyQuests: '/my-quests',
   Contacts: '/contacts',
   NotFound: '/404',

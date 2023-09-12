@@ -55,7 +55,7 @@ export const MyQuests = () => (
                   Маньяк
                 </a>
                 <span className="quest-card__info">
-                  [сегодня,&nbsp;17:00. наб. реки Карповки&nbsp;5, лит&nbsp;П
+                  [сегодня, 17:00. наб. реки Карповки 5, лит П
                   <br />
                   м. Петроградская]
                 </span>
@@ -65,7 +65,7 @@ export const MyQuests = () => (
                   <svg width={11} height={14} aria-hidden="true">
                     <use xlinkHref="#icon-person" />
                   </svg>
-                  6&nbsp;чел
+                  6 чел
                 </li>
                 <li className="tags__item">
                   <svg width={14} height={14} aria-hidden="true">
@@ -104,7 +104,7 @@ export const MyQuests = () => (
                   Тайны старого особняка
                 </a>
                 <span className="quest-card__info">
-                  [завтра,&nbsp;17:00. наб. реки Карповки&nbsp;5, лит&nbsp;П
+                  [завтра, 17:00. наб. реки Карповки 5, лит П
                   <br />
                   м. Петроградская]
                 </span>
@@ -114,7 +114,7 @@ export const MyQuests = () => (
                   <svg width={11} height={14} aria-hidden="true">
                     <use xlinkHref="#icon-person" />
                   </svg>
-                  3&nbsp;чел
+                  3 чел
                 </li>
                 <li className="tags__item">
                   <svg width={14} height={14} aria-hidden="true">
@@ -153,7 +153,7 @@ export const MyQuests = () => (
                   Маньяк
                 </a>
                 <span className="quest-card__info">
-                  [завтра,&nbsp;20:00. наб. реки Карповки&nbsp;5, лит&nbsp;П
+                  [завтра, 20:00. наб. реки Карповки 5, лит П
                   <br />
                   м. Петроградская]
                 </span>
@@ -163,7 +163,7 @@ export const MyQuests = () => (
                   <svg width={11} height={14} aria-hidden="true">
                     <use xlinkHref="#icon-person" />
                   </svg>
-                  6&nbsp;чел
+                  6 чел
                 </li>
                 <li className="tags__item">
                   <svg width={14} height={14} aria-hidden="true">

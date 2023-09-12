@@ -7,6 +7,7 @@ import { Login } from '../../pages/login/login';
 import { Contacts } from '../../pages/contacts/contacts';
 import { MyQuests } from '../../pages/my-quests/my-quests';
 import { Quest } from '../../pages/quest/quest';
+import { Booking } from '../../pages/booking/booking';
 
 
 export const App = () => (
@@ -21,8 +22,8 @@ export const App = () => (
         element={<Quest />}
       />
       <Route
-        path={`${AppRoute.Quest}/:id`}
-        element={<Quest />}
+        path={`${AppRoute.Quest}/:id/${AppRoute.Booking}`}
+        element={<Booking />}
       />
       <Route
         path={AppRoute.Login}

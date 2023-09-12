@@ -1,4 +1,5 @@
 import { useParams, Navigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { Header } from '../../components/header/header';
 import { Footer } from '../../components/footer/footer';
@@ -13,7 +14,7 @@ export const Quest = () => {
   if (fullQuest === undefined) {
     return <Navigate to={AppRoute.NotFound} />;
   }
-  const { title, previewImg, previewImgWebp, level, type, peopleMinMax, description, coverImg, coverImgWebp } = fullQuest;
+  const { id, title, level, type, peopleMinMax, description, coverImg, coverImgWebp } = fullQuest;
 
   return (
     <div className="wrapper">
@@ -26,11 +27,10 @@ export const Quest = () => {
           <picture>
             <source
               type="image/webp"
-              srcSet={`${previewImgWebp}, ${coverImgWebp} 2x`}
+              srcSet={coverImgWebp}
             />
             <img
-              src={previewImg}
-              srcSet={`${coverImg} 2x`}
+              src={coverImg}
               width={1366}
               height={768}
               alt={title}
@@ -50,7 +50,7 @@ export const Quest = () => {
                 <svg width={11} height={14} aria-hidden="true">
                   <use xlinkHref="#icon-person" />
                 </svg>
-                {peopleMinMax[0]}–{peopleMinMax[1]}&nbsp;чел
+                {peopleMinMax[0]}–{peopleMinMax[1]} чел
               </li>
               <li className="tags__item">
                 <svg width={14} height={14} aria-hidden="true">
@@ -62,12 +62,12 @@ export const Quest = () => {
             <p className="quest-page__description">
               {description}
             </p>
-            <a
+            <Link
               className="btn btn--accent btn--cta quest-page__btn"
-              href="booking.html"
+              to={`${AppRoute.Quest}/${id}/${AppRoute.Booking}`}
             >
               Забронировать
-            </a>
+            </Link>
           </div>
         </div>
       </main>

@@ -27,7 +27,7 @@ export const Contacts = () => (
       <div className="container">
         <div className="page-content__title-wrapper page-content__title-wrapper--underlined">
           <p className="subtitle page-content__subtitle">
-            квесты в&nbsp;Санкт-Петербурге
+            квесты в Санкт-Петербурге
           </p>
           <h1 className="title title--size-m page-content__title">Контакты</h1>
         </div>
@@ -45,7 +45,7 @@ export const Contacts = () => (
             <div className="contacts__item">
               <dt className="contacts__dt">Режим работы</dt>
               <dd className="contacts__dd">
-                Ежедневно, с&nbsp;10:00 до&nbsp;22:00
+                Ежедневно, с 10:00 до 22:00
               </dd>
             </div>
             <div className="contacts__item">

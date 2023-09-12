@@ -44,7 +44,7 @@ export const QuestCard = (
           <svg width={11} height={14} aria-hidden="true">
             <use xlinkHref="#icon-person" />
           </svg>
-          {peopleMinMax[0]}–{peopleMinMax[1]}&nbsp;чел
+          {peopleMinMax[0]}–{peopleMinMax[1]} чел
         </li>
         <li className="tags__item">
           <svg width={14} height={14} aria-hidden="true">

@@ -36,7 +36,7 @@ export const Login = () => (
               <div className="login-form__inputs">
                 <div className="custom-input login-form__input">
                   <label className="custom-input__label" htmlFor="email">
-                    E&nbsp;–&nbsp;mail
+                    E–mail
                   </label>
                   <input
                     type="email"
@@ -79,11 +79,11 @@ export const Login = () => (
                 </svg>
               </span>
               <span className="custom-checkbox__label">
-                Я&nbsp;согласен с
+                Я согласен с
                 <a className="link link--active-silver link--underlined" href="#">
                   правилами обработки персональных данных
                 </a>
-                &nbsp;и пользовательским соглашением
+                 и пользовательским соглашением
               </span>
             </label>
           </form>
@@ -92,5 +92,4 @@ export const Login = () => (
     </main>
     <Footer />
   </div>
-
 );
