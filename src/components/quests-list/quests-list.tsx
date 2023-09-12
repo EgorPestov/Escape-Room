@@ -1,22 +1,24 @@
-import { Link } from 'react-router-dom';
-import { AppRoute } from '../../const';
 import { QuestCard } from '../quest-card.tsx/quest-card';
-import { mockQuests } from '../../mocks';
+import { useAppSelector } from '../../hooks/useAppSelector/useAppSelector';
+import { getQuests } from '../../store/quests-process.ts/selectors';
 
-export const QuestsList = () => (
-  <div className="cards-grid">
-    {mockQuests.map((quest) => (
-      <QuestCard
-        key={quest.id}
-        id={quest.id}
-        title={quest.title}
-        previewImg={quest.previewImg}
-        previewImgWebp={quest.previewImgWebp}
-        level={quest.level}
-        type={quest.type}
-        peopleMinMax={quest.peopleMinMax}
-      />
-    )
-    )}
-  </div>
-);
+export const QuestsList = () => {
+  const quests = useAppSelector(getQuests);
+  return (
+    <div className="cards-grid">
+      {quests.map((quest) => (
+        <QuestCard
+          key={quest.id}
+          id={quest.id}
+          title={quest.title}
+          previewImg={quest.previewImg}
+          previewImgWebp={quest.previewImgWebp}
+          level={quest.level}
+          type={quest.type}
+          peopleMinMax={quest.peopleMinMax}
+        />
+      )
+      )}
+    </div>
+  );
+};

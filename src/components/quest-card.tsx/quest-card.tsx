@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { QuestType } from '../../mocks';
-import { LevelTranslations } from '../../const';
+import { LevelSortTypes } from '../../const';
 
 type QuestCardProps = QuestType;
 
@@ -50,7 +50,7 @@ export const QuestCard = (
           <svg width={14} height={14} aria-hidden="true">
             <use xlinkHref="#icon-level" />
           </svg>
-          {LevelTranslations[level]}
+          {LevelSortTypes[level]}
         </li>
       </ul>
     </div>

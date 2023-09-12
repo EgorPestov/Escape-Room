@@ -8,16 +8,43 @@ export const AppRoute = {
   NotFound: '/404',
 } as const;
 
-export const LevelTranslations = {
+export const LevelSortTypes = {
+  all: 'любой',
   easy: 'лёгкий',
   medium: 'средний',
   hard: 'сложный',
-};
+} as const;
 
-export const TypeTranslations = {
+export type LevelSortTypeValues = typeof LevelSortTypes[keyof typeof LevelSortTypes];
+
+export const LevelSortValues = Object.values(LevelSortTypes);
+
+export const GenreSortTypes = {
+  all: 'все квесты',
   adventures: 'приключения',
   horror: 'ужасы',
   mystic: 'мистика',
   detective: 'детектив',
   'sci-fi': 'sci-fi',
-};
+} as const;
+
+export type GenreSortTypeValues = typeof GenreSortTypes[keyof typeof GenreSortTypes];
+
+export const GenreSortValues = Object.values(GenreSortTypes);
+
+export const AuthStatus = {
+  Auth: 'AUTH',
+  NoAuth: 'NO_AUTH',
+  Unknown: 'UNKNOWN',
+} as const;
+
+type AuthStatusType = typeof AuthStatus;
+
+export type AuthStatusValuesType = AuthStatusType[keyof AuthStatusType];
+
+export const NameSpace = {
+  Quests: 'QUESTS',
+  User: 'USER',
+} as const;
+
+export type NameSpaceType = typeof NameSpace;

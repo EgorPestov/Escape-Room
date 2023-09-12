@@ -5,7 +5,7 @@ import { Header } from '../../components/header/header';
 import { Footer } from '../../components/footer/footer';
 import { AppRoute } from '../../const';
 import { mockFullQuests } from '../../mocks';
-import { LevelTranslations, TypeTranslations } from '../../const';
+import { LevelSortTypes, GenreSortTypes } from '../../const';
 
 
 export const Quest = () => {
@@ -43,7 +43,7 @@ export const Quest = () => {
               {title}
             </h1>
             <p className="subtitle quest-page__subtitle">
-              <span className="visually-hidden">Жанр:</span>{TypeTranslations[type]}
+              <span className="visually-hidden">Жанр:</span>{GenreSortTypes[type]}
             </p>
             <ul className="tags tags--size-l quest-page__tags">
               <li className="tags__item">
@@ -56,7 +56,7 @@ export const Quest = () => {
                 <svg width={14} height={14} aria-hidden="true">
                   <use xlinkHref="#icon-level" />
                 </svg>
-                {LevelTranslations[level]}
+                {LevelSortTypes[level]}
               </li>
             </ul>
             <p className="quest-page__description">
