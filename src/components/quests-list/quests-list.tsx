@@ -1,4 +1,4 @@
-import { QuestCard } from '../quest-card.tsx/quest-card';
+import { QuestCard } from '../quest-card/quest-card';
 import { useAppSelector } from '../../hooks/useAppSelector/useAppSelector';
 import { getQuests } from '../../store/quests-process/selectors';
 
