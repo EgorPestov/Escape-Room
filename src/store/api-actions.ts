@@ -6,10 +6,9 @@ import { QuestType, FullQuestType } from '../mocks';
 import { redirectToRoute } from './actions';
 import { APIRoute, AppRoute } from '../const';
 import { toast } from 'react-toastify';
-import {
-  setActiveId, setActivePage, setActiveFilterByGenreType, setActiveFilterByLevelType, setError, setQuests,
-  setBackupQuests, setQuestsLoadStatus, setFullQuest, setFullQuestLoadStatus, filterQuests
-} from './quests-process/quests-process';
+import { setError, setQuests, setBackupQuests, setQuestsLoadStatus, setFullQuest, setFullQuestLoadStatus, setActivePage } from './quests-process/quests-process';
+import { saveToken, dropToken } from '../services/token';
+import { setUserData } from './user-process/user-process';
 
 type thunkObjType = {
   dispatch: AppDispatch;
@@ -59,5 +58,33 @@ export const fetchFullQuest = createAsyncThunk<void, { id: string | undefined },
       toast.error('Quest is not available, please try again');
       throw new Error;
     }
+  }
+);
+
+export const checkAuth = createAsyncThunk<void, undefined, thunkObjType>(
+  'USER/checkAuth',
+  async (_arg, { dispatch, extra: api }) => {
+    const { data } = await api.get<UserData>(APIRoute.Login);
+    dispatch(setUserData(data));
+  }
+);
+
+export const login = createAsyncThunk<void, AuthData, thunkObjType>(
+  'USER/login',
+  async ({ email, password }, { dispatch, extra: api }) => {
+    const { data: { token } } = await api.post<UserData>(APIRoute.Login, { email, password });
+    saveToken(token);
+    dispatch(redirectToRoute(AppRoute.Root));
+    dispatch(setActivePage('квесты'));
+    dispatch(checkAuth());
+    // dispatch(fetchQuests());
+  }
+);
+
+export const logout = createAsyncThunk<void, undefined, thunkObjType>(
+  'USER/logout',
+  async (_arg, { extra: api }) => {
+    await api.delete(APIRoute.Logout);
+    dropToken();
   }
 );

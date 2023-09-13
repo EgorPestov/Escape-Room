@@ -1,14 +1,18 @@
 import { NavLink } from 'react-router-dom';
-import { AppRoute } from '../../const';
+import { AppRoute, AuthStatus } from '../../const';
 import { getStyleForNavLink } from '../../utils';
 import { useAppDispatch } from '../../hooks/useAppDispatch/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector/useAppSelector';
 import { getActivePage } from '../../store/quests-process/selectors';
 import { setActivePage } from '../../store/quests-process/quests-process';
+import { getAuthStatus } from '../../store/user-process/selectors';
+import { HeaderAuthElement } from './header-auth-element';
+import { HeaderNoAuthElement } from './header-no-auth-element';
 
 export const Header = () => {
   const dispatch = useAppDispatch();
   const activePage = useAppSelector(getActivePage);
+  const authStatus = useAppSelector(getAuthStatus);
 
   return (
     <header className="header">
@@ -46,20 +50,19 @@ export const Header = () => {
               </NavLink>
             </li>
             <li className="main-nav__item">
-              <NavLink
-                className={`link ${activePage === 'мои бронирования' ? 'active' : ''}`}
-                to={AppRoute.MyQuests}
-                onClick={() => dispatch(setActivePage('мои бронирования'))}
-              >
-                Мои бронирования
-              </NavLink>
+              {authStatus === AuthStatus.Auth ?
+                <NavLink
+                  className={`link ${activePage === 'мои бронирования' ? 'active' : ''}`}
+                  to={AppRoute.MyQuests}
+                  onClick={() => dispatch(setActivePage('мои бронирования'))}
+                >
+                  Мои бронирования
+                </NavLink> : ''}
             </li>
           </ul>
         </nav>
         <div className="header__side-nav">
-          <NavLink className="btn btn--accent header__side-item" to={AppRoute.Login}>
-            Войти
-          </NavLink>
+          {authStatus === AuthStatus.Auth ? <HeaderAuthElement /> : <HeaderNoAuthElement />}
           <a
             className="link header__side-item header__phone-link"
             href="tel:88003335599"

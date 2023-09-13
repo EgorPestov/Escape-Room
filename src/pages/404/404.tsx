@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { AppRoute } from '../../const';
 
 export const NotFound = () => (
-  <div data-testid="not-found-page">
+  <div>
     <Helmet>
       <title>404</title>
     </Helmet>

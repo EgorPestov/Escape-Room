@@ -10,14 +10,21 @@ import { MyQuests } from '../../pages/my-quests/my-quests';
 import { Quest } from '../../pages/quest/quest';
 import { Booking } from '../../pages/booking/booking';
 import { useAppDispatch } from '../../hooks/useAppDispatch/useAppDispatch';
-import { fetchQuests } from '../../store/api-actions';
+import { checkAuth, fetchQuests } from '../../store/api-actions';
+import { PrivateMyQuestsRoute } from '../private-routes/private-my-quests-route/private-my-quests-route';
+import { useAppSelector } from '../../hooks/useAppSelector/useAppSelector';
+import { getAuthStatus } from '../../store/user-process/selectors';
+import { PrivateLoginRoute } from '../private-routes/private-login-route/private-login-route';
 
 export const App = () => {
   const dispatch = useAppDispatch();
 
   useLayoutEffect(() => {
     dispatch(fetchQuests());
+    dispatch(checkAuth());
   }, [dispatch]);
+
+  const authStatus = useAppSelector(getAuthStatus);
 
   return (
     <HelmetProvider>
@@ -36,7 +43,11 @@ export const App = () => {
         />
         <Route
           path={AppRoute.Login}
-          element={<Login />}
+          element={
+            <PrivateLoginRoute authorizationStatus={authStatus}>
+              <Login />
+            </PrivateLoginRoute>
+          }
         />
         <Route
           path={AppRoute.Contacts}
@@ -44,7 +55,11 @@ export const App = () => {
         />
         <Route
           path={AppRoute.MyQuests}
-          element={<MyQuests />}
+          element={
+            <PrivateMyQuestsRoute authorizationStatus={authStatus}>
+              <MyQuests />
+            </PrivateMyQuestsRoute>
+          }
         />
         <Route
           path='*'
