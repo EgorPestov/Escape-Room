@@ -78,7 +78,7 @@ export const Quest = () => {
             </p>
             <Link
               className="btn btn--accent btn--cta quest-page__btn"
-              to={`${AppRoute.Quest}/${id}/${AppRoute.Booking}`}
+              to={`${AppRoute.Quest}/${id}${AppRoute.Booking}`}
             >
               Забронировать
             </Link>

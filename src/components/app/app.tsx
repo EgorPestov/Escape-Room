@@ -15,6 +15,7 @@ import { PrivateMyQuestsRoute } from '../private-routes/private-my-quests-route/
 import { useAppSelector } from '../../hooks/useAppSelector/useAppSelector';
 import { getAuthStatus } from '../../store/user-process/selectors';
 import { PrivateLoginRoute } from '../private-routes/private-login-route/private-login-route';
+import { PrivateBookingRoute } from '../private-routes/private-booking-route/private-booking-route';
 
 export const App = () => {
   const dispatch = useAppDispatch();
@@ -38,8 +39,12 @@ export const App = () => {
           element={<Quest />}
         />
         <Route
-          path={`${AppRoute.Quest}/:id/${AppRoute.Booking}`}
-          element={<Booking />}
+          path={`${AppRoute.Quest}/:id${AppRoute.Booking}`}
+          element={
+            <PrivateBookingRoute authorizationStatus={authStatus}>
+              <Booking />
+            </PrivateBookingRoute>
+          }
         />
         <Route
           path={AppRoute.Login}

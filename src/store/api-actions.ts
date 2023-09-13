@@ -77,7 +77,6 @@ export const login = createAsyncThunk<void, AuthData, thunkObjType>(
     dispatch(redirectToRoute(AppRoute.Root));
     dispatch(setActivePage('квесты'));
     dispatch(checkAuth());
-    // dispatch(fetchQuests());
   }
 );
 
