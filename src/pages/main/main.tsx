@@ -1,30 +1,43 @@
+import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Header } from '../../components/header/header';
 import { Footer } from '../../components/footer/footer';
 import { FilterForm } from '../../components/filter-form/filter-form';
 import { QuestsList } from '../../components/quests-list/quests-list';
+import { useAppDispatch } from '../../hooks/useAppDispatch/useAppDispatch';
+import { filterQuests, setActiveFilterByGenreType, setActiveFilterByLevelType } from '../../store/quests-process/quests-process';
 
-export const Main = () => (
-  <div className="wrapper">
-    <Helmet>
-      <title>Escape Room</title>
-    </Helmet>
-    <Header />
-    <main className="page-content">
-      <div className="container">
-        <div className="page-content__title-wrapper">
-          <h1 className="subtitle page-content__subtitle">
-            квесты в Санкт-Петербурге
-          </h1>
-          <h2 className="title title--size-m page-content__title">
-            Выберите тематику
-          </h2>
+export const Main = () => {
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(setActiveFilterByGenreType('all-quests'));
+    dispatch(setActiveFilterByLevelType('all'));
+    dispatch(filterQuests());
+  }, [dispatch]);
+
+
+  return (
+    <div className="wrapper">
+      <Helmet>
+        <title>Escape Room</title>
+      </Helmet>
+      <Header />
+      <main className="page-content">
+        <div className="container">
+          <div className="page-content__title-wrapper">
+            <h1 className="subtitle page-content__subtitle">
+              квесты в Санкт-Петербурге
+            </h1>
+            <h2 className="title title--size-m page-content__title">
+              Выберите тематику
+            </h2>
+          </div>
+          <FilterForm />
+          <h2 className="title visually-hidden">Выберите квест</h2>
+          <QuestsList />
         </div>
-        <FilterForm />
-        <h2 className="title visually-hidden">Выберите квест</h2>
-        <QuestsList />
-      </div>
-    </main>
-    <Footer />
-  </div>
-);
+      </main>
+      <Footer />
+    </div>
+  );
+};

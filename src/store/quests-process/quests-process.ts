@@ -73,7 +73,6 @@ export const questsProcessSlice = createSlice({
       } else {
         state.quests = state.quests.filter((quest) => quest.level === state.activeFilterByLevelType && quest.type === state.activeFilterByGenreType);
       }
-
     },
   }
 });
