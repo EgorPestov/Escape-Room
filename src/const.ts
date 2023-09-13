@@ -8,18 +8,20 @@ export const AppRoute = {
   NotFound: '/404',
 } as const;
 
-export const LevelSortTypes = {
+export const LevelFilterTypes = {
   all: 'любой',
   easy: 'лёгкий',
   medium: 'средний',
   hard: 'сложный',
 } as const;
 
-export type LevelSortTypeValues = typeof LevelSortTypes[keyof typeof LevelSortTypes];
+export type LevelFilterTypeValues = typeof LevelFilterTypes[keyof typeof LevelFilterTypes];
 
-export const LevelSortValues = Object.values(LevelSortTypes);
+export type LevelFilterTypeKeys = keyof typeof LevelFilterTypes;
 
-export const GenreSortTypes = {
+export const LevelFilterValues = Object.values(LevelFilterTypes);
+
+export const GenreFilterTypes = {
   'all-quests': 'Все квесты',
   'adventures': 'Приключения',
   'horror': 'Ужасы',
@@ -28,9 +30,11 @@ export const GenreSortTypes = {
   'sci-fi': 'Sci-fi',
 } as const;
 
-export type GenreSortTypeValues = typeof GenreSortTypes[keyof typeof GenreSortTypes];
+export type GenreFilterTypeValues = typeof GenreFilterTypes[keyof typeof GenreFilterTypes];
 
-export const GenreSortValues = Object.values(GenreSortTypes);
+export type GenreFilterTypeKeys = keyof typeof GenreFilterTypes;
+
+export const GenreFilterValues = Object.values(GenreFilterTypes);
 
 export const AuthStatus = {
   Auth: 'AUTH',

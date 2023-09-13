@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { NameSpace, LevelSortTypeValues, GenreSortTypeValues, LevelSortTypes, GenreSortTypes } from '../../const';
+import { NameSpace, LevelFilterTypeKeys, GenreFilterTypeKeys } from '../../const';
 import { QuestType, FullQuestType, mockQuests } from '../../mocks';
 
 export type QuestsProcessType = {
   activePage: string;
   activeId: string | null;
-  activeSortByGenreType: GenreSortTypeValues;
-  activeSortByLevelType: LevelSortTypeValues;
+  activeFilterByGenreType: GenreFilterTypeKeys;
+  activeFilterByLevelType: LevelFilterTypeKeys;
   quests: QuestType[];
   backupQuests: QuestType[];
   fullQuest: FullQuestType | null;
@@ -18,8 +18,8 @@ export type QuestsProcessType = {
 export const initialState: QuestsProcessType = {
   activePage: 'квесты',
   activeId: null,
-  activeSortByGenreType: 'Все квесты',
-  activeSortByLevelType: 'любой',
+  activeFilterByGenreType: 'all-quests',
+  activeFilterByLevelType: 'all',
   quests: mockQuests,
   backupQuests: mockQuests,
   fullQuest: null,
@@ -37,6 +37,12 @@ export const questsProcessSlice = createSlice({
     },
     setActiveId: (state, action: PayloadAction<string | null>) => {
       state.activeId = action.payload;
+    },
+    setActiveFilterByGenreType: (state, action: PayloadAction<GenreFilterTypeKeys>) => {
+      state.activeFilterByGenreType = action.payload;
+    },
+    setActiveFilterByLevelType: (state, action: PayloadAction<LevelFilterTypeKeys>) => {
+      state.activeFilterByLevelType = action.payload;
     },
     setQuests: (state, action: PayloadAction<QuestType[]>) => {
       state.quests = action.payload;
@@ -56,56 +62,21 @@ export const questsProcessSlice = createSlice({
     setError: (state, action: PayloadAction<boolean>) => {
       state.hasError = action.payload;
     },
-    sortQuestsByLevel: (state, action: PayloadAction<LevelSortTypeValues>) => {
-      state.activeSortByLevelType = action.payload;
-      switch (state.activeSortByLevelType) {
-        case LevelSortTypes.all:
-          state.quests = state.backupQuests;
-          break;
-        case LevelSortTypes.easy:
-          state.quests = state.backupQuests;
-          state.quests = state.quests.filter((quest) => quest.level === 'easy');
-          break;
-        case LevelSortTypes.medium:
-          state.quests = state.backupQuests;
-          state.quests = state.quests.filter((quest) => quest.level === 'medium');
-          break;
-        case LevelSortTypes.hard:
-          state.quests = state.backupQuests;
-          state.quests = state.quests.filter((quest) => quest.level === 'hard');
-          break;
+    filterQuests: (state) => {
+      state.quests = state.backupQuests;
+      if (state.activeFilterByGenreType === 'all-quests' && state.activeFilterByLevelType === 'all') {
+        state.quests = state.backupQuests;
+      } else if (state.activeFilterByGenreType === 'all-quests') {
+        state.quests = state.quests.filter((quest) => quest.level === state.activeFilterByLevelType);
+      } else if (state.activeFilterByLevelType === 'all') {
+        state.quests = state.quests.filter((quest) => quest.type === state.activeFilterByGenreType);
+      } else {
+        state.quests = state.quests.filter((quest) => quest.level === state.activeFilterByLevelType && quest.type === state.activeFilterByGenreType);
       }
-    },
-    sortQuestsByGenre: (state, action: PayloadAction<GenreSortTypeValues>) => {
-      state.activeSortByGenreType = action.payload;
-      switch (state.activeSortByGenreType) {
-        case GenreSortTypes['all-quests']:
-          state.quests = state.backupQuests;
-          break;
-        case GenreSortTypes['adventures']:
-          state.quests = state.backupQuests;
-          state.quests = state.quests.filter((quest) => quest.type === 'adventures');
-          break;
-        case GenreSortTypes['detective']:
-          state.quests = state.backupQuests;
-          state.quests = state.quests.filter((quest) => quest.type === 'detective');
-          break;
-        case GenreSortTypes['horror']:
-          state.quests = state.backupQuests;
-          state.quests = state.quests.filter((quest) => quest.type === 'horror');
-          break;
-        case GenreSortTypes['mystic']:
-          state.quests = state.backupQuests;
-          state.quests = state.quests.filter((quest) => quest.type === 'mystic');
-          break;
-        case GenreSortTypes['sci-fi']:
-          state.quests = state.backupQuests;
-          state.quests = state.quests.filter((quest) => quest.type === 'sci-fi');
-          break;
-      }
+
     },
   }
 });
 
-export const { setActivePage, setActiveId, setError, setQuests, setBackupQuests, setQuestsLoadStatus,
-  setFullQuest, setFullQuestLoadStatus, sortQuestsByLevel, sortQuestsByGenre } = questsProcessSlice.actions;
+export const { setActivePage, setActiveId, setActiveFilterByGenreType, setActiveFilterByLevelType, setError, setQuests,
+  setBackupQuests, setQuestsLoadStatus, setFullQuest, setFullQuestLoadStatus, filterQuests } = questsProcessSlice.actions;
