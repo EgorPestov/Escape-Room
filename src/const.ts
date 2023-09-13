@@ -8,6 +8,16 @@ export const AppRoute = {
   NotFound: '/404',
 } as const;
 
+export const APIRoute = {
+  Quests: '/quest',
+  Booking: '/booking',
+  Reservations: '/reservation',
+  Login: '/login',
+  Logout: '/logout',
+} as const;
+
+export type AppRouteType = typeof APIRoute;
+
 export const LevelFilterTypes = {
   all: 'любой',
   easy: 'лёгкий',

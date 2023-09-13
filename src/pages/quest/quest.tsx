@@ -1,19 +1,33 @@
-import { useParams, Navigate } from 'react-router-dom';
+import { useLayoutEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { Header } from '../../components/header/header';
 import { Footer } from '../../components/footer/footer';
 import { AppRoute } from '../../const';
-import { mockFullQuests } from '../../mocks';
 import { LevelFilterTypes, GenreFilterTypes } from '../../const';
-
+import { useAppDispatch } from '../../hooks/useAppDispatch/useAppDispatch';
+import { getFullOffer, getFullQuestLoadStatus } from '../../store/quests-process/selectors';
+import { fetchFullQuest } from '../../store/api-actions';
+import { useAppSelector } from '../../hooks/useAppSelector/useAppSelector';
+import { LoadingScreen } from '../../components/loading-screen/loading-screen';
 
 export const Quest = () => {
-  const idContainer = useParams();
-  const fullQuest = mockFullQuests.find((quest) => quest.id === idContainer.id);
-  if (fullQuest === undefined) {
-    return <Navigate to={AppRoute.NotFound} />;
+  const dispatch = useAppDispatch();
+  const questId = useParams().id;
+  const isFullQuestLoading = useAppSelector(getFullQuestLoadStatus);
+
+  useLayoutEffect(() => {
+    dispatch(fetchFullQuest({ id: questId }));
+  }, [questId, dispatch]);
+
+  const fullQuest = useAppSelector(getFullOffer);
+  if (isFullQuestLoading || fullQuest === null) {
+    return (
+      <LoadingScreen />
+    );
   }
+
   const { id, title, level, type, peopleMinMax, description, coverImg, coverImgWebp } = fullQuest;
 
   return (

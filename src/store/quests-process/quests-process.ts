@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { NameSpace, LevelFilterTypeKeys, GenreFilterTypeKeys } from '../../const';
-import { QuestType, FullQuestType, mockQuests } from '../../mocks';
+import { QuestType, FullQuestType } from '../../mocks';
 
 export type QuestsProcessType = {
   activePage: string;
@@ -20,8 +20,8 @@ export const initialState: QuestsProcessType = {
   activeId: null,
   activeFilterByGenreType: 'all-quests',
   activeFilterByLevelType: 'all',
-  quests: mockQuests,
-  backupQuests: mockQuests,
+  quests: [],
+  backupQuests: [],
   fullQuest: null,
   isFullQuestLoading: false,
   isQuestsLoading: true,
@@ -48,7 +48,7 @@ export const questsProcessSlice = createSlice({
       state.quests = action.payload;
     },
     setBackupQuests: (state, action: PayloadAction<QuestType[]>) => {
-      state.quests = action.payload;
+      state.backupQuests = action.payload;
     },
     setQuestsLoadStatus: (state, action: PayloadAction<boolean>) => {
       state.isQuestsLoading = action.payload;
