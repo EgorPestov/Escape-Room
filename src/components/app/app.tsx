@@ -21,8 +21,16 @@ export const App = () => {
   const dispatch = useAppDispatch();
 
   useLayoutEffect(() => {
-    dispatch(fetchQuests());
-    dispatch(checkAuth());
+    let isMounted = true;
+
+    if (isMounted) {
+      dispatch(fetchQuests());
+      dispatch(checkAuth());
+    }
+
+    return () => {
+      isMounted = false;
+    };
   }, [dispatch]);
 
   const authStatus = useAppSelector(getAuthStatus);

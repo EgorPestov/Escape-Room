@@ -7,7 +7,7 @@ import { Footer } from '../../components/footer/footer';
 import { AppRoute } from '../../const';
 import { LevelFilterTypes, GenreFilterTypes } from '../../const';
 import { useAppDispatch } from '../../hooks/useAppDispatch/useAppDispatch';
-import { getFullOffer, getFullQuestLoadStatus } from '../../store/quests-process/selectors';
+import { getFullQuest, getFullQuestLoadStatus } from '../../store/quests-process/selectors';
 import { fetchFullQuest } from '../../store/api-actions';
 import { useAppSelector } from '../../hooks/useAppSelector/useAppSelector';
 import { LoadingScreen } from '../../components/loading-screen/loading-screen';
@@ -18,10 +18,18 @@ export const Quest = () => {
   const isFullQuestLoading = useAppSelector(getFullQuestLoadStatus);
 
   useLayoutEffect(() => {
-    dispatch(fetchFullQuest({ id: questId }));
+    let isMounted = true;
+
+    if (isMounted) {
+      dispatch(fetchFullQuest({ id: questId }));
+    }
+
+    return () => {
+      isMounted = false;
+    };
   }, [questId, dispatch]);
 
-  const fullQuest = useAppSelector(getFullOffer);
+  const fullQuest = useAppSelector(getFullQuest);
   if (isFullQuestLoading || fullQuest === null) {
     return (
       <LoadingScreen />

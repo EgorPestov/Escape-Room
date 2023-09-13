@@ -8,7 +8,9 @@ import { useAppDispatch } from '../../hooks/useAppDispatch/useAppDispatch';
 export const Login = () => {
   const dispatch = useAppDispatch();
   const [AuthInfo, setAuthInfo] = useState({ login: '', password: '' });
-  const isNeedDisable = !AuthInfo.login; // для валидации
+
+  const isValidPassword = AuthInfo.password.length >= 3 && AuthInfo.password.length <= 15;
+  const isNeedDisable = !AuthInfo.login || !isValidPassword;
 
   const handleLoginChange = (evt: ChangeEvent<HTMLInputElement>) => {
     setAuthInfo({ ...AuthInfo, login: evt.target.value });
@@ -92,9 +94,15 @@ export const Login = () => {
                 <button
                   className="btn btn--accent btn--general login-form__submit"
                   type="submit"
+                  disabled={isNeedDisable}
                 >
                   Войти
                 </button>
+                {isNeedDisable && (
+                  <p style={{ color: 'red' }}>
+                    Длина пароля должна быть от 3 до 15 символов
+                  </p>
+                )}
               </div>
               <label className="custom-checkbox login-form__checkbox">
                 <input
@@ -123,4 +131,5 @@ export const Login = () => {
       <Footer />
     </div>
   );
-}
+};
+

@@ -17,7 +17,7 @@ export type QuestsProcessType = {
 }
 
 export const initialState: QuestsProcessType = {
-  activePage: 'квесты',
+  activePage: '',
   activeId: null,
   activeFilterByGenreType: 'all-quests',
   activeFilterByLevelType: 'all',

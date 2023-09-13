@@ -6,7 +6,7 @@ import { QuestType, FullQuestType } from '../mocks';
 import { redirectToRoute } from './actions';
 import { APIRoute, AppRoute } from '../const';
 import { toast } from 'react-toastify';
-import { setError, setQuests, setBackupQuests, setQuestsLoadStatus, setFullQuest, setFullQuestLoadStatus, setActivePage, setNeededPage } from './quests-process/quests-process';
+import { setError, setQuests, setBackupQuests, setQuestsLoadStatus, setFullQuest, setFullQuestLoadStatus, setNeededPage } from './quests-process/quests-process';
 import { saveToken, dropToken } from '../services/token';
 import { setUserData } from './user-process/user-process';
 
@@ -78,7 +78,6 @@ export const login = createAsyncThunk<void, AuthData, thunkObjType>(
       const neededPage = getState().QUESTS.neededPage;
       dispatch(checkAuth());
       dispatch(redirectToRoute(neededPage));
-      dispatch(setActivePage('квесты'));
     } finally {
       setTimeout(() => dispatch(setNeededPage(AppRoute.Root)), 1000);
     }

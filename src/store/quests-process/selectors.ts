@@ -7,7 +7,7 @@ export const getActiveId = (state: State): string | null => state[NameSpace.Ques
 export const getActiveSortByGenreType = (state: State): string => state[NameSpace.Quests].activeFilterByGenreType;
 export const getActiveSortByLevelType = (state: State): string => state[NameSpace.Quests].activeFilterByLevelType;
 export const getQuests = (state: State): QuestType[] => state[NameSpace.Quests].quests;
-export const getFullOffer = (state: State): FullQuestType | null => state[NameSpace.Quests].fullQuest;
+export const getFullQuest = (state: State): FullQuestType | null => state[NameSpace.Quests].fullQuest;
 export const getQuestsLoadStatus = (state: State): boolean => state[NameSpace.Quests].isQuestsLoading;
 export const getFullQuestLoadStatus = (state: State): boolean => state[NameSpace.Quests].isFullQuestLoading;
 export const hasError = (state: State): boolean => state[NameSpace.Quests].hasError;
