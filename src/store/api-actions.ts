@@ -6,7 +6,7 @@ import { QuestType, FullQuestType } from '../mocks';
 import { redirectToRoute } from './actions';
 import { APIRoute, AppRoute } from '../const';
 import { toast } from 'react-toastify';
-import { setError, setQuests, setBackupQuests, setQuestsLoadStatus, setFullQuest, setFullQuestLoadStatus, setActivePage } from './quests-process/quests-process';
+import { setError, setQuests, setBackupQuests, setQuestsLoadStatus, setFullQuest, setFullQuestLoadStatus, setActivePage, setNeededPage } from './quests-process/quests-process';
 import { saveToken, dropToken } from '../services/token';
 import { setUserData } from './user-process/user-process';
 
@@ -71,12 +71,17 @@ export const checkAuth = createAsyncThunk<void, undefined, thunkObjType>(
 
 export const login = createAsyncThunk<void, AuthData, thunkObjType>(
   'USER/login',
-  async ({ email, password }, { dispatch, extra: api }) => {
-    const { data: { token } } = await api.post<UserData>(APIRoute.Login, { email, password });
-    saveToken(token);
-    dispatch(redirectToRoute(AppRoute.Root));
-    dispatch(setActivePage('квесты'));
-    dispatch(checkAuth());
+  async ({ email, password }, { dispatch, extra: api, getState }) => {
+    try {
+      const { data: { token } } = await api.post<UserData>(APIRoute.Login, { email, password });
+      saveToken(token);
+      const neededPage = getState().QUESTS.neededPage;
+      dispatch(checkAuth());
+      dispatch(redirectToRoute(neededPage));
+      dispatch(setActivePage('квесты'));
+    } finally {
+      setTimeout(() => dispatch(setNeededPage(AppRoute.Root)), 1000);
+    }
   }
 );
 

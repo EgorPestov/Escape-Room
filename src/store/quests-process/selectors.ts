@@ -11,3 +11,4 @@ export const getFullOffer = (state: State): FullQuestType | null => state[NameSp
 export const getQuestsLoadStatus = (state: State): boolean => state[NameSpace.Quests].isQuestsLoading;
 export const getFullQuestLoadStatus = (state: State): boolean => state[NameSpace.Quests].isFullQuestLoading;
 export const hasError = (state: State): boolean => state[NameSpace.Quests].hasError;
+export const getNeededPage = (state: State): string => state[NameSpace.Quests].neededPage;

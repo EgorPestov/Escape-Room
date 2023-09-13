@@ -12,6 +12,7 @@ export type QuestsProcessType = {
   fullQuest: FullQuestType | null;
   isFullQuestLoading: boolean;
   isQuestsLoading: boolean;
+  neededPage: string;
   hasError: boolean;
 }
 
@@ -25,6 +26,7 @@ export const initialState: QuestsProcessType = {
   fullQuest: null,
   isFullQuestLoading: false,
   isQuestsLoading: true,
+  neededPage: '/',
   hasError: false,
 };
 
@@ -62,6 +64,9 @@ export const questsProcessSlice = createSlice({
     setError: (state, action: PayloadAction<boolean>) => {
       state.hasError = action.payload;
     },
+    setNeededPage: (state, action: PayloadAction<string>) => {
+      state.neededPage = action.payload;
+    },
     filterQuests: (state) => {
       state.quests = state.backupQuests;
       if (state.activeFilterByGenreType === 'all-quests' && state.activeFilterByLevelType === 'all') {
@@ -78,4 +83,4 @@ export const questsProcessSlice = createSlice({
 });
 
 export const { setActivePage, setActiveId, setActiveFilterByGenreType, setActiveFilterByLevelType, setError, setQuests,
-  setBackupQuests, setQuestsLoadStatus, setFullQuest, setFullQuestLoadStatus, filterQuests } = questsProcessSlice.actions;
+  setBackupQuests, setQuestsLoadStatus, setFullQuest, setFullQuestLoadStatus, setNeededPage, filterQuests } = questsProcessSlice.actions;
