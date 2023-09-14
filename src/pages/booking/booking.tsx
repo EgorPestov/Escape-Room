@@ -1,24 +1,37 @@
+import { useParams } from 'react-router-dom';
 import { Header } from '../../components/header/header';
 import { Footer } from '../../components/footer/footer';
 import { Helmet } from 'react-helmet-async';
 import { useAppDispatch } from '../../hooks/useAppDispatch/useAppDispatch';
 import { useLayoutEffect } from 'react';
 import { useAppSelector } from '../../hooks/useAppSelector/useAppSelector';
-import { getFullQuest, getFullQuestLoadStatus } from '../../store/quests-process/selectors';
+import { getFullQuest, getFullQuestLoadStatus, getBookings, getActiveId } from '../../store/quests-process/selectors';
 import { LoadingScreen } from '../../components/loading-screen/loading-screen';
+import { Map } from '../../components/map/map';
+import { fetchBookings, fetchFullQuest } from '../../store/api-actions';
 
 export const Booking = () => {
+  const currentId = useParams().id;
   const dispatch = useAppDispatch();
   const fullQuest = useAppSelector(getFullQuest);
+  const activeId = useAppSelector(getActiveId);
   const isFullQuestLoading = useAppSelector(getFullQuestLoadStatus);
 
-  if (isFullQuestLoading || fullQuest === null) {
+  useLayoutEffect(() => {
+    dispatch(fetchFullQuest({id: currentId}));
+    dispatch(fetchBookings({ id: currentId }));
+  }, [dispatch, activeId, currentId]);
+
+  const bookings = useAppSelector(getBookings);
+
+  if (isFullQuestLoading || fullQuest === null || bookings === null) {
     return (
       <LoadingScreen />
     );
   }
 
-  const { id, title, level, type, peopleMinMax, description, coverImg, coverImgWebp } = fullQuest;
+
+  const { title, level, type, peopleMinMax, description, coverImg, coverImgWebp } = fullQuest;
 
   return (
     <div className="wrapper">
@@ -52,9 +65,7 @@ export const Booking = () => {
           </div>
           <div className="page-content__item">
             <div className="booking-map">
-              <div className="map">
-                <div className="map__container" />
-              </div>
+              <Map location={bookings[0].location}/>
               <p className="booking-map__address">
                 Вы выбрали: наб. реки Карповки 5, лит П, м.
                 Петроградская

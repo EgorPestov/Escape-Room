@@ -1,6 +1,5 @@
-import { useLayoutEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { Header } from '../../components/header/header';
 import { Footer } from '../../components/footer/footer';
@@ -11,16 +10,18 @@ import { getFullQuest, getFullQuestLoadStatus } from '../../store/quests-process
 import { fetchFullQuest } from '../../store/api-actions';
 import { useAppSelector } from '../../hooks/useAppSelector/useAppSelector';
 import { LoadingScreen } from '../../components/loading-screen/loading-screen';
+import { setActiveId } from '../../store/quests-process/quests-process';
 
 export const Quest = () => {
   const dispatch = useAppDispatch();
   const questId = useParams().id;
   const isFullQuestLoading = useAppSelector(getFullQuestLoadStatus);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     let isMounted = true;
 
     if (isMounted) {
+      dispatch(setActiveId(questId));
       dispatch(fetchFullQuest({ id: questId }));
     }
 

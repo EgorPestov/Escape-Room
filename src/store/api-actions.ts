@@ -2,11 +2,14 @@ import { AxiosInstance } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch } from '../hooks/useAppDispatch/useAppDispatch';
 import { State } from '../hooks/useAppSelector/useAppSelector';
-import { QuestType, FullQuestType } from '../mocks';
+import { QuestType, FullQuestType, BookingType } from '../mocks';
 import { redirectToRoute } from './actions';
 import { APIRoute, AppRoute } from '../const';
 import { toast } from 'react-toastify';
-import { setError, setQuests, setBackupQuests, setQuestsLoadStatus, setFullQuest, setFullQuestLoadStatus, setNeededPage } from './quests-process/quests-process';
+import {
+  setError, setQuests, setBackupQuests, setQuestsLoadStatus, setBookings,
+  setBookingsLoadStatus, setFullQuest, setFullQuestLoadStatus, setNeededPage
+} from './quests-process/quests-process';
 import { saveToken, dropToken } from '../services/token';
 import { setUserData } from './user-process/user-process';
 
@@ -56,6 +59,22 @@ export const fetchFullQuest = createAsyncThunk<void, { id: string | undefined },
       dispatch(setFullQuestLoadStatus(false));
     } catch {
       toast.error('Quest is not available, please try again');
+      throw new Error;
+    }
+  }
+);
+
+export const fetchBookings = createAsyncThunk<void, { id: string | undefined }, thunkObjType>(
+  'QUESTS/fetchBookings',
+  async ({ id }, { dispatch, extra: api }) => {
+    try {
+      dispatch(setBookingsLoadStatus(true));
+      const url = id !== undefined ? `${APIRoute.Quests}/${id}${APIRoute.Booking}` : '';
+      const { data } = await api.get<BookingType[]>(url);
+      dispatch(setBookings(data));
+      dispatch(setBookingsLoadStatus(false));
+    } catch {
+      toast.error('Bookings are not available, please try again');
       throw new Error;
     }
   }

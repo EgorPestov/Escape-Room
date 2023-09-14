@@ -1,15 +1,17 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { NameSpace, LevelFilterTypeKeys, GenreFilterTypeKeys } from '../../const';
-import { QuestType, FullQuestType } from '../../mocks';
+import { QuestType, FullQuestType, BookingType } from '../../mocks';
 
 export type QuestsProcessType = {
   activePage: string;
-  activeId: string | null;
+  activeId: string | undefined;
   activeFilterByGenreType: GenreFilterTypeKeys;
   activeFilterByLevelType: LevelFilterTypeKeys;
   quests: QuestType[];
   backupQuests: QuestType[];
   fullQuest: FullQuestType | null;
+  bookings: BookingType[] | null;
+  isBookingsLoading: boolean;
   isFullQuestLoading: boolean;
   isQuestsLoading: boolean;
   neededPage: string;
@@ -18,12 +20,14 @@ export type QuestsProcessType = {
 
 export const initialState: QuestsProcessType = {
   activePage: '',
-  activeId: null,
+  activeId: undefined,
   activeFilterByGenreType: 'all-quests',
   activeFilterByLevelType: 'all',
   quests: [],
   backupQuests: [],
   fullQuest: null,
+  bookings: null,
+  isBookingsLoading: false,
   isFullQuestLoading: false,
   isQuestsLoading: true,
   neededPage: '/',
@@ -37,7 +41,7 @@ export const questsProcessSlice = createSlice({
     setActivePage: (state, action: PayloadAction<string>) => {
       state.activePage = action.payload;
     },
-    setActiveId: (state, action: PayloadAction<string | null>) => {
+    setActiveId: (state, action: PayloadAction<string | undefined>) => {
       state.activeId = action.payload;
     },
     setActiveFilterByGenreType: (state, action: PayloadAction<GenreFilterTypeKeys>) => {
@@ -61,6 +65,12 @@ export const questsProcessSlice = createSlice({
     setFullQuestLoadStatus: (state, action: PayloadAction<boolean>) => {
       state.isFullQuestLoading = action.payload;
     },
+    setBookings: (state, action: PayloadAction<BookingType[] | null>) => {
+      state.bookings = action.payload;
+    },
+    setBookingsLoadStatus: (state, action: PayloadAction<boolean>) => {
+      state.isBookingsLoading = action.payload;
+    },
     setError: (state, action: PayloadAction<boolean>) => {
       state.hasError = action.payload;
     },
@@ -82,5 +92,6 @@ export const questsProcessSlice = createSlice({
   }
 });
 
-export const { setActivePage, setActiveId, setActiveFilterByGenreType, setActiveFilterByLevelType, setError, setQuests,
-  setBackupQuests, setQuestsLoadStatus, setFullQuest, setFullQuestLoadStatus, setNeededPage, filterQuests } = questsProcessSlice.actions;
+export const { setActivePage, setActiveId, setActiveFilterByGenreType, setActiveFilterByLevelType,
+  setError, setQuests, setBackupQuests, setQuestsLoadStatus, setFullQuest, setBookings, setBookingsLoadStatus,
+  setFullQuestLoadStatus, setNeededPage, filterQuests } = questsProcessSlice.actions;

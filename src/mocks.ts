@@ -20,3 +20,24 @@ export type FullQuestType = {
   coverImg: string;
   coverImgWebp: string;
 }
+
+export type BookingType = {
+  id: string;
+  location: LocationType;
+  slots: Slots;
+}
+
+export type LocationType = {
+  address: string;
+  coords: [number, number];
+}
+
+export type Slots = {
+  today: Times[];
+  tomorrow: Times[];
+}
+
+export type Times = {
+  time: string;
+  isAvailable: boolean;
+}
