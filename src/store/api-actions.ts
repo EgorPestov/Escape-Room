@@ -30,6 +30,17 @@ export type AuthData = {
   password: string;
 };
 
+export type BookingData = {
+  id: string | undefined;
+  date: string;
+  time: string;
+  contactPerson: string;
+  phone: string;
+  withChildren: boolean;
+  peopleCount: number;
+  placeId: string;
+}
+
 export const fetchQuests = createAsyncThunk<void, undefined, thunkObjType>(
   'QUESTS/fetchQuests',
   async (_arg, { dispatch, extra: api }) => {
@@ -76,6 +87,19 @@ export const fetchBookings = createAsyncThunk<void, { id: string | undefined }, 
       dispatch(setBookingsLoadStatus(false));
     } catch {
       toast.error('Bookings are not available, please try again');
+      throw new Error;
+    }
+  }
+);
+
+export const bookQuest = createAsyncThunk<void, BookingData, thunkObjType>(
+  'QUEST/bookQuest',
+  async ({ id, date, time, contactPerson, phone, withChildren, peopleCount, placeId }, { dispatch, extra: api }) => {
+    try {
+      const url = id !== undefined ? `${APIRoute.Quests}/${id}${APIRoute.Booking}` : '';
+      await api.post<BookingData>(url, { date, time, contactPerson, phone, withChildren, peopleCount, placeId });
+      dispatch(redirectToRoute(AppRoute.MyQuests));
+    } catch {
       throw new Error;
     }
   }

@@ -3,7 +3,6 @@ import { State } from '../../hooks/useAppSelector/useAppSelector';
 import { QuestType, FullQuestType, BookingType } from '../../mocks';
 
 export const getActivePage = (state: State): string => state[NameSpace.Quests].activePage;
-export const getActiveId = (state: State): string | undefined => state[NameSpace.Quests].activeId;
 export const getActiveSortByGenreType = (state: State): string => state[NameSpace.Quests].activeFilterByGenreType;
 export const getActiveSortByLevelType = (state: State): string => state[NameSpace.Quests].activeFilterByLevelType;
 export const getQuests = (state: State): QuestType[] => state[NameSpace.Quests].quests;

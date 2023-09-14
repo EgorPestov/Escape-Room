@@ -3,19 +3,29 @@ import { Header } from '../../components/header/header';
 import { Footer } from '../../components/footer/footer';
 import { Helmet } from 'react-helmet-async';
 import { useAppDispatch } from '../../hooks/useAppDispatch/useAppDispatch';
-import { useLayoutEffect } from 'react';
+import { useLayoutEffect, useState, ChangeEvent, FormEvent } from 'react';
 import { useAppSelector } from '../../hooks/useAppSelector/useAppSelector';
-import { getFullQuest, getFullQuestLoadStatus, getBookings, getActiveId, getActiveBooking } from '../../store/quests-process/selectors';
+import { getFullQuest, getFullQuestLoadStatus, getBookings, getActiveBooking } from '../../store/quests-process/selectors';
 import { LoadingScreen } from '../../components/loading-screen/loading-screen';
 import { Map } from '../../components/map/map';
 import { fetchBookings, fetchFullQuest } from '../../store/api-actions';
 import { formatTime } from '../../utils';
+import { bookQuest } from '../../store/api-actions';
 
 export const Booking = () => {
+  const [BookingInfo, setBookingInfo] = useState({
+    date: '',
+    time: '',
+    contactPerson: '',
+    phone: '',
+    withChildren: false,
+    peopleCount: 1,
+    placeId: ''
+  });
+
   const currentId = useParams().id;
   const dispatch = useAppDispatch();
   const fullQuest = useAppSelector(getFullQuest);
-  const activeId = useAppSelector(getActiveId);
   const isFullQuestLoading = useAppSelector(getFullQuestLoadStatus);
   const bookings = useAppSelector(getBookings);
   const currentBooking = useAppSelector(getActiveBooking);
@@ -23,7 +33,7 @@ export const Booking = () => {
   useLayoutEffect(() => {
     dispatch(fetchFullQuest({ id: currentId }));
     dispatch(fetchBookings({ id: currentId }));
-  }, [dispatch, activeId, currentId,]);
+  }, [dispatch, currentId,]);
 
   if (isFullQuestLoading || fullQuest === null || bookings === null || currentBooking === undefined) {
     return (
@@ -32,8 +42,41 @@ export const Booking = () => {
   }
 
   const { id, location, slots } = currentBooking;
-  console.log(slots)
   const { title, level, type, peopleMinMax, description, coverImg, coverImgWebp } = fullQuest;
+
+  const handleContactChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    setBookingInfo({ ...BookingInfo, contactPerson: evt.target.value });
+  };
+
+  const handlePhoneChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    setBookingInfo({ ...BookingInfo, phone: evt.target.value });
+  };
+
+  const handlePeopleChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    setBookingInfo({ ...BookingInfo, peopleCount: Number(evt.target.value) });
+  };
+
+  const handleSlotChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    setBookingInfo({ ...BookingInfo, date: evt.target.dataset.day, time: evt.target.dataset.time, placeId: id });
+  };
+
+  const handleChildrenChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    setBookingInfo({ ...BookingInfo, withChildren: evt.target.checked });
+  };
+
+  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    dispatch(bookQuest({
+      id: currentId,
+      date: BookingInfo.date,
+      time: BookingInfo.time,
+      contactPerson: BookingInfo.contactPerson,
+      phone: BookingInfo.phone,
+      withChildren: BookingInfo.withChildren,
+      peopleCount: BookingInfo.peopleCount,
+      placeId: BookingInfo.placeId,
+    }));
+  };
 
   return (
     <div className="wrapper">
@@ -74,6 +117,7 @@ export const Booking = () => {
             </div>
           </div>
           <form
+            onSubmit={handleSubmit}
             className="booking-form"
             action="https://echo.htmlacademy.ru/"
             method="post"
@@ -86,6 +130,9 @@ export const Booking = () => {
                   {slots.today.map((slot) => (
                     <label key={slot.time} className="custom-radio booking-form__date">
                       <input
+                        onChange={handleSlotChange}
+                        data-time={slot.time}
+                        data-day={'today'}
                         type="radio"
                         id={formatTime(slot.time, 'today')}
                         name="date"
@@ -104,6 +151,9 @@ export const Booking = () => {
                   {slots.today.map((slot) => (
                     <label key={slot.time} className="custom-radio booking-form__date">
                       <input
+                        onChange={handleSlotChange}
+                        data-time={slot.time}
+                        data-day={'tomorrow'}
                         type="radio"
                         id={formatTime(slot.time, 'tomorrow')}
                         name="date"
@@ -124,6 +174,8 @@ export const Booking = () => {
                   Ваше имя
                 </label>
                 <input
+                  value={BookingInfo.contactPerson}
+                  onChange={handleContactChange}
                   type="text"
                   id="name"
                   name="name"
@@ -137,6 +189,8 @@ export const Booking = () => {
                   Контактный телефон
                 </label>
                 <input
+                  value={BookingInfo.phone}
+                  onChange={handlePhoneChange}
                   type="tel"
                   id="tel"
                   name="tel"
@@ -150,6 +204,8 @@ export const Booking = () => {
                   Количество участников
                 </label>
                 <input
+                  value={BookingInfo.peopleCount}
+                  onChange={handlePeopleChange}
                   type="number"
                   id="person"
                   name="person"
@@ -159,10 +215,11 @@ export const Booking = () => {
               </div>
               <label className="custom-checkbox booking-form__checkbox booking-form__checkbox--children">
                 <input
+                  onChange={handleChildrenChange}
                   type="checkbox"
                   id="children"
                   name="children"
-                  defaultChecked
+                  checked={BookingInfo.withChildren}
                 />
                 <span className="custom-checkbox__icon">
                   <svg width={20} height={17} aria-hidden="true">

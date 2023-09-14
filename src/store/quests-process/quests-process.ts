@@ -4,7 +4,6 @@ import { QuestType, FullQuestType, BookingType } from '../../mocks';
 
 export type QuestsProcessType = {
   activePage: string;
-  activeId: string | undefined;
   activeFilterByGenreType: GenreFilterTypeKeys;
   activeFilterByLevelType: LevelFilterTypeKeys;
   quests: QuestType[];
@@ -21,7 +20,6 @@ export type QuestsProcessType = {
 
 export const initialState: QuestsProcessType = {
   activePage: '',
-  activeId: undefined,
   activeFilterByGenreType: 'all-quests',
   activeFilterByLevelType: 'all',
   quests: [],
@@ -42,9 +40,6 @@ export const questsProcessSlice = createSlice({
   reducers: {
     setActivePage: (state, action: PayloadAction<string>) => {
       state.activePage = action.payload;
-    },
-    setActiveId: (state, action: PayloadAction<string | undefined>) => {
-      state.activeId = action.payload;
     },
     setActiveFilterByGenreType: (state, action: PayloadAction<GenreFilterTypeKeys>) => {
       state.activeFilterByGenreType = action.payload;
@@ -97,6 +92,6 @@ export const questsProcessSlice = createSlice({
   }
 });
 
-export const { setActivePage, setActiveId, setActiveFilterByGenreType, setActiveFilterByLevelType,
+export const { setActivePage, setActiveFilterByGenreType, setActiveFilterByLevelType,
   setError, setQuests, setBackupQuests, setQuestsLoadStatus, setFullQuest, setBookings, setBookingsLoadStatus,
   setFullQuestLoadStatus, setNeededPage, filterQuests, setActiveBookingId } = questsProcessSlice.actions;

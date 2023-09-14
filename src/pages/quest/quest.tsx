@@ -10,7 +10,6 @@ import { getFullQuest, getFullQuestLoadStatus } from '../../store/quests-process
 import { fetchFullQuest } from '../../store/api-actions';
 import { useAppSelector } from '../../hooks/useAppSelector/useAppSelector';
 import { LoadingScreen } from '../../components/loading-screen/loading-screen';
-import { setActiveId } from '../../store/quests-process/quests-process';
 
 export const Quest = () => {
   const dispatch = useAppDispatch();
@@ -21,7 +20,6 @@ export const Quest = () => {
     let isMounted = true;
 
     if (isMounted) {
-      dispatch(setActiveId(questId));
       dispatch(fetchFullQuest({ id: questId }));
     }
 
