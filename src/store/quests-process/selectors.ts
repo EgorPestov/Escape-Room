@@ -14,3 +14,10 @@ export const hasError = (state: State): boolean => state[NameSpace.Quests].hasEr
 export const getNeededPage = (state: State): string => state[NameSpace.Quests].neededPage;
 export const getBookings = (state: State): BookingType[] | null => state[NameSpace.Quests].bookings;
 export const getBookingsLoadStatus = (state: State): boolean => state[NameSpace.Quests].isBookingsLoading;
+export const getActiveBookingId = (state: State): string | undefined => state[NameSpace.Quests].activeBookingId;
+export const getActiveBooking = (state: State): BookingType | undefined => {
+  if (state[NameSpace.Quests].activeBookingId !== undefined) {
+    return state[NameSpace.Quests].bookings?.filter((booking) => booking.id === state[NameSpace.Quests].activeBookingId)[0];
+  }
+  return undefined;
+};

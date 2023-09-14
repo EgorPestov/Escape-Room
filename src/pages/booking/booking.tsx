@@ -5,10 +5,11 @@ import { Helmet } from 'react-helmet-async';
 import { useAppDispatch } from '../../hooks/useAppDispatch/useAppDispatch';
 import { useLayoutEffect } from 'react';
 import { useAppSelector } from '../../hooks/useAppSelector/useAppSelector';
-import { getFullQuest, getFullQuestLoadStatus, getBookings, getActiveId } from '../../store/quests-process/selectors';
+import { getFullQuest, getFullQuestLoadStatus, getBookings, getActiveId, getActiveBooking } from '../../store/quests-process/selectors';
 import { LoadingScreen } from '../../components/loading-screen/loading-screen';
 import { Map } from '../../components/map/map';
 import { fetchBookings, fetchFullQuest } from '../../store/api-actions';
+import { formatTime } from '../../utils';
 
 export const Booking = () => {
   const currentId = useParams().id;
@@ -16,21 +17,22 @@ export const Booking = () => {
   const fullQuest = useAppSelector(getFullQuest);
   const activeId = useAppSelector(getActiveId);
   const isFullQuestLoading = useAppSelector(getFullQuestLoadStatus);
+  const bookings = useAppSelector(getBookings);
+  const currentBooking = useAppSelector(getActiveBooking);
 
   useLayoutEffect(() => {
-    dispatch(fetchFullQuest({id: currentId}));
+    dispatch(fetchFullQuest({ id: currentId }));
     dispatch(fetchBookings({ id: currentId }));
-  }, [dispatch, activeId, currentId]);
+  }, [dispatch, activeId, currentId,]);
 
-  const bookings = useAppSelector(getBookings);
-
-  if (isFullQuestLoading || fullQuest === null || bookings === null) {
+  if (isFullQuestLoading || fullQuest === null || bookings === null || currentBooking === undefined) {
     return (
       <LoadingScreen />
     );
   }
 
-
+  const { id, location, slots } = currentBooking;
+  console.log(slots)
   const { title, level, type, peopleMinMax, description, coverImg, coverImgWebp } = fullQuest;
 
   return (
@@ -65,10 +67,9 @@ export const Booking = () => {
           </div>
           <div className="page-content__item">
             <div className="booking-map">
-              <Map location={bookings[0].location}/>
+              <Map bookings={bookings} selectedId={id} />
               <p className="booking-map__address">
-                Вы выбрали: наб. реки Карповки 5, лит П, м.
-                Петроградская
+                Вы выбрали: {location.address}
               </p>
             </div>
           </div>
@@ -82,115 +83,37 @@ export const Booking = () => {
               <fieldset className="booking-form__date-section">
                 <legend className="booking-form__date-title">Сегодня</legend>
                 <div className="booking-form__date-inner-wrapper">
-                  <label className="custom-radio booking-form__date">
-                    <input
-                      type="radio"
-                      id="today9h45m"
-                      name="date"
-                      required
-                      defaultValue="today9h45m"
-                    />
-                    <span className="custom-radio__label">9:45</span>
-                  </label>
-                  <label className="custom-radio booking-form__date">
-                    <input
-                      type="radio"
-                      id="today15h00m"
-                      name="date"
-                      defaultChecked
-                      required
-                      defaultValue="today15h00m"
-                    />
-                    <span className="custom-radio__label">15:00</span>
-                  </label>
-                  <label className="custom-radio booking-form__date">
-                    <input
-                      type="radio"
-                      id="today17h30m"
-                      name="date"
-                      required
-                      defaultValue="today17h30m"
-                    />
-                    <span className="custom-radio__label">17:30</span>
-                  </label>
-                  <label className="custom-radio booking-form__date">
-                    <input
-                      type="radio"
-                      id="today19h30m"
-                      name="date"
-                      required
-                      defaultValue="today19h30m"
-                      disabled
-                    />
-                    <span className="custom-radio__label">19:30</span>
-                  </label>
-                  <label className="custom-radio booking-form__date">
-                    <input
-                      type="radio"
-                      id="today21h30m"
-                      name="date"
-                      required
-                      defaultValue="today21h30m"
-                    />
-                    <span className="custom-radio__label">21:30</span>
-                  </label>
+                  {slots.today.map((slot) => (
+                    <label key={slot.time} className="custom-radio booking-form__date">
+                      <input
+                        type="radio"
+                        id={formatTime(slot.time, 'today')}
+                        name="date"
+                        required
+                        defaultValue={formatTime(slot.time, 'today')}
+                        disabled={!slot.isAvailable}
+                      />
+                      <span className="custom-radio__label">{slot.time}</span>
+                    </label>
+                  ))}
                 </div>
               </fieldset>
               <fieldset className="booking-form__date-section">
                 <legend className="booking-form__date-title">Завтра</legend>
                 <div className="booking-form__date-inner-wrapper">
-                  <label className="custom-radio booking-form__date">
-                    <input
-                      type="radio"
-                      id="tomorrow11h00m"
-                      name="date"
-                      required
-                      defaultValue="tomorrow11h00m"
-                    />
-                    <span className="custom-radio__label">11:00</span>
-                  </label>
-                  <label className="custom-radio booking-form__date">
-                    <input
-                      type="radio"
-                      id="tomorrow15h00m"
-                      name="date"
-                      required
-                      defaultValue="tomorrow15h00m"
-                      disabled
-                    />
-                    <span className="custom-radio__label">15:00</span>
-                  </label>
-                  <label className="custom-radio booking-form__date">
-                    <input
-                      type="radio"
-                      id="tomorrow17h30m"
-                      name="date"
-                      required
-                      defaultValue="tomorrow17h30m"
-                      disabled
-                    />
-                    <span className="custom-radio__label">17:30</span>
-                  </label>
-                  <label className="custom-radio booking-form__date">
-                    <input
-                      type="radio"
-                      id="tomorrow19h45m"
-                      name="date"
-                      required
-                      defaultValue="tomorrow19h45m"
-                    />
-                    <span className="custom-radio__label">19:45</span>
-                  </label>
-                  <label className="custom-radio booking-form__date">
-                    <input
-                      type="radio"
-                      id="tomorrow21h30m"
-                      name="date"
-                      required
-                      defaultValue="tomorrow21h30m"
-                    />
-                    <span className="custom-radio__label">21:30</span>
-                  </label>
+                  {slots.today.map((slot) => (
+                    <label key={slot.time} className="custom-radio booking-form__date">
+                      <input
+                        type="radio"
+                        id={formatTime(slot.time, 'tomorrow')}
+                        name="date"
+                        required
+                        defaultValue={formatTime(slot.time, 'tomorrow')}
+                        disabled={!slot.isAvailable}
+                      />
+                      <span className="custom-radio__label">{slot.time}</span>
+                    </label>
+                  ))}
                 </div>
               </fieldset>
             </fieldset>

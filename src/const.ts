@@ -1,3 +1,13 @@
+import { LatLngExpression } from 'leaflet';
+
+export const SAINT_P_COORDS = [59.9386, 30.3141] as LatLngExpression;
+
+export const MAP_ZOOM_VALUE = 10;
+
+export const URL_MARKER_DEFAULT = '/markup/img/svg/pin-default.svg';
+
+export const URL_MARKER_ACTIVE = '/markup/img/svg/pin-active.svg';
+
 export const AppRoute = {
   Root: '/',
   Login: '/login',

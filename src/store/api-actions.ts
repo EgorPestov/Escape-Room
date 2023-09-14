@@ -8,7 +8,7 @@ import { APIRoute, AppRoute } from '../const';
 import { toast } from 'react-toastify';
 import {
   setError, setQuests, setBackupQuests, setQuestsLoadStatus, setBookings,
-  setBookingsLoadStatus, setFullQuest, setFullQuestLoadStatus, setNeededPage
+  setBookingsLoadStatus, setFullQuest, setFullQuestLoadStatus, setNeededPage, setActiveBookingId
 } from './quests-process/quests-process';
 import { saveToken, dropToken } from '../services/token';
 import { setUserData } from './user-process/user-process';
@@ -72,6 +72,7 @@ export const fetchBookings = createAsyncThunk<void, { id: string | undefined }, 
       const url = id !== undefined ? `${APIRoute.Quests}/${id}${APIRoute.Booking}` : '';
       const { data } = await api.get<BookingType[]>(url);
       dispatch(setBookings(data));
+      dispatch(setActiveBookingId(data[0].id));
       dispatch(setBookingsLoadStatus(false));
     } catch {
       toast.error('Bookings are not available, please try again');
