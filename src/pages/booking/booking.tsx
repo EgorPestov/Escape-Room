@@ -11,7 +11,7 @@ import { Map } from '../../components/map/map';
 import { fetchBookings, fetchFullQuest } from '../../store/api-actions';
 import { formatTime } from '../../utils';
 import { bookQuest } from '../../store/api-actions';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import classes from './booking.module.css';
 import { MAP_ZOOM_VALUE, SAINT_P_COORDS, ValidationMessages } from '../../const';
 import { MapContainer } from 'react-leaflet';
@@ -37,6 +37,8 @@ export const Booking = () => {
     placeId: ''
   });
 
+  const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
+
   const { register, handleSubmit, formState: { errors } } = useForm<BookingData>();
   const currentId = useParams().id;
   const dispatch = useAppDispatch();
@@ -50,6 +52,7 @@ export const Booking = () => {
     if (isMounted) {
       dispatch(fetchFullQuest({ id: currentId }));
       dispatch(fetchBookings({ id: currentId }));
+
     }
     return () => {
       isMounted = false;
@@ -57,10 +60,8 @@ export const Booking = () => {
   }, [dispatch, currentId]);
 
   useEffect(() => {
-    if (fullQuest !== null) {
-      setBookingInfo({ ...BookingInfo, peopleCount: fullQuest.peopleMinMax[0] });
-    }
-  }, []);
+    setSelectedSlot(null); // Сброс выбранного слота времени
+  }, [currentBooking]);
 
   if (isFullQuestLoading || fullQuest === null || bookings === null || currentBooking === undefined) {
     return (
@@ -86,6 +87,7 @@ export const Booking = () => {
   const handleSlotChange = (evt: ChangeEvent<HTMLInputElement>) => {
     if (evt.target.dataset.day && evt.target.dataset.time) {
       setBookingInfo({ ...BookingInfo, date: evt.target.dataset.day, time: evt.target.dataset.time, placeId: id });
+      setSelectedSlot(formatTime(evt.target.dataset.time, evt.target.dataset.day));
     }
   };
 
@@ -93,7 +95,7 @@ export const Booking = () => {
     setBookingInfo({ ...BookingInfo, withChildren: evt.target.checked });
   };
 
-  const onSubmit: SubmitHandler<FormData> = () => {
+  const onSubmit = () => {
     dispatch(bookQuest({
       id: currentId,
       date: BookingInfo.date,
@@ -177,7 +179,7 @@ export const Booking = () => {
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="booking-form"
-            action="https://echo.htmlacademy.ru/"
+            action=""
             method="post"
           >
             <fieldset className="booking-form__section">
@@ -197,6 +199,7 @@ export const Booking = () => {
                         required
                         defaultValue={formatTime(slot.time, 'today')}
                         disabled={!slot.isAvailable}
+                        checked={selectedSlot === formatTime(slot.time, 'today')}
                       />
                       <span className="custom-radio__label">{slot.time}</span>
                     </label>
@@ -218,6 +221,7 @@ export const Booking = () => {
                         required
                         defaultValue={formatTime(slot.time, 'tomorrow')}
                         disabled={!slot.isAvailable}
+                        checked={selectedSlot === formatTime(slot.time, 'tomorrow')}
                       />
                       <span className="custom-radio__label">{slot.time}</span>
                     </label>
@@ -261,11 +265,10 @@ export const Booking = () => {
                   Количество участников
                 </label>
                 <input
-                  value={BookingInfo.peopleCount}
                   type="number"
                   id="person"
+                  value={BookingInfo.peopleCount}
                   placeholder="Количество участников"
-                  required
                   {...register('peopleCount', { required: ValidationMessages.PeopleCount, onChange: handlePersonChange, validate: validatePerson })}
                 />
                 {errors.peopleCount && <span role="alert" className={classes.validation}>{errors.peopleCount?.message}</span>}
