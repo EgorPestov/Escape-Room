@@ -15,8 +15,8 @@ export const FilterGenreForm = () => {
     <fieldset className="filter__section">
       <legend className="visually-hidden">Тематика</legend>
       <ul className="filter__list">
-        <li className="filter__item" onClick={() => handleClick('all-quests')}>
-          <input type="radio" name="type" id="all" defaultChecked />
+        <li className="filter__item">
+          <input type="radio" name="type" id="all" onClick={() => handleClick('all-quests')} defaultChecked />
           <label className="filter__label" htmlFor="all">
             <svg className="filter__icon" width={26} height={30} aria-hidden="true">
               <use xlinkHref="#icon-all-quests" />
@@ -24,8 +24,8 @@ export const FilterGenreForm = () => {
             <span className="filter__label-text">Все квесты</span>
           </label>
         </li>
-        <li className="filter__item" onClick={() => handleClick('adventures')}>
-          <input type="radio" name="type" id="adventure" />
+        <li className="filter__item">
+          <input type="radio" name="type" id="adventure" onClick={() => handleClick('adventures')} />
           <label className="filter__label" htmlFor="adventure">
             <svg className="filter__icon" width={36} height={30} aria-hidden="true">
               <use xlinkHref="#icon-adventure" />
@@ -33,8 +33,8 @@ export const FilterGenreForm = () => {
             <span className="filter__label-text">Приключения</span>
           </label>
         </li>
-        <li className="filter__item" onClick={() => handleClick('horror')}>
-          <input type="radio" name="type" id="horror" />
+        <li className="filter__item">
+          <input type="radio" name="type" id="horror" onClick={() => handleClick('horror')} />
           <label className="filter__label" htmlFor="horror">
             <svg className="filter__icon" width={30} height={30} aria-hidden="true">
               <use xlinkHref="#icon-horror" />
@@ -42,8 +42,8 @@ export const FilterGenreForm = () => {
             <span className="filter__label-text">Ужасы</span>
           </label>
         </li>
-        <li className="filter__item" onClick={() => handleClick('mystic')}>
-          <input type="radio" name="type" id="mystic" />
+        <li className="filter__item">
+          <input type="radio" name="type" id="mystic" onClick={() => handleClick('mystic')} />
           <label className="filter__label" htmlFor="mystic">
             <svg className="filter__icon" width={30} height={30} aria-hidden="true">
               <use xlinkHref="#icon-mystic" />
@@ -51,8 +51,8 @@ export const FilterGenreForm = () => {
             <span className="filter__label-text">Мистика</span>
           </label>
         </li>
-        <li className="filter__item" onClick={() => handleClick('detective')}>
-          <input type="radio" name="type" id="detective" />
+        <li className="filter__item">
+          <input type="radio" name="type" id="detective" onClick={() => handleClick('detective')} />
           <label className="filter__label" htmlFor="detective">
             <svg className="filter__icon" width={40} height={30} aria-hidden="true">
               <use xlinkHref="#icon-detective" />
@@ -60,8 +60,8 @@ export const FilterGenreForm = () => {
             <span className="filter__label-text">Детектив</span>
           </label>
         </li>
-        <li className="filter__item" onClick={() => handleClick('sci-fi')}>
-          <input type="radio" name="type" id="sciFi" />
+        <li className="filter__item">
+          <input type="radio" name="type" id="sciFi" onClick={() => handleClick('sci-fi')} />
           <label className="filter__label" htmlFor="sciFi">
             <svg className="filter__icon" width={28} height={30} aria-hidden="true">
               <use xlinkHref="#icon-sci-fi" />

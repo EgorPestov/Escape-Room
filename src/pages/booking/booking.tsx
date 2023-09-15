@@ -3,7 +3,7 @@ import { Header } from '../../components/header/header';
 import { Footer } from '../../components/footer/footer';
 import { Helmet } from 'react-helmet-async';
 import { useAppDispatch } from '../../hooks/useAppDispatch/useAppDispatch';
-import { useLayoutEffect, useState, ChangeEvent, FormEvent } from 'react';
+import { useLayoutEffect, useEffect, useState, ChangeEvent, FormEvent } from 'react';
 import { useAppSelector } from '../../hooks/useAppSelector/useAppSelector';
 import { getFullQuest, getFullQuestLoadStatus, getBookings, getActiveBooking } from '../../store/quests-process/selectors';
 import { LoadingScreen } from '../../components/loading-screen/loading-screen';
@@ -31,9 +31,21 @@ export const Booking = () => {
   const currentBooking = useAppSelector(getActiveBooking);
 
   useLayoutEffect(() => {
-    dispatch(fetchFullQuest({ id: currentId }));
-    dispatch(fetchBookings({ id: currentId }));
-  }, [dispatch, currentId,]);
+    let isMounted = true;
+    if (isMounted) {
+      dispatch(fetchFullQuest({ id: currentId }));
+      dispatch(fetchBookings({ id: currentId }));
+    }
+    return () => {
+      isMounted = false;
+    };
+  }, [dispatch, currentId]);
+
+  useEffect(() => {
+    if (fullQuest !== null) {
+      setBookingInfo({ ...BookingInfo, peopleCount: fullQuest.peopleMinMax[0] });
+    }
+  }, []);
 
   if (isFullQuestLoading || fullQuest === null || bookings === null || currentBooking === undefined) {
     return (
@@ -77,6 +89,7 @@ export const Booking = () => {
       placeId: BookingInfo.placeId,
     }));
   };
+
 
   return (
     <div className="wrapper">
@@ -148,7 +161,7 @@ export const Booking = () => {
               <fieldset className="booking-form__date-section">
                 <legend className="booking-form__date-title">Завтра</legend>
                 <div className="booking-form__date-inner-wrapper">
-                  {slots.today.map((slot) => (
+                  {slots.tomorrow.map((slot) => (
                     <label key={slot.time} className="custom-radio booking-form__date">
                       <input
                         onChange={handleSlotChange}
@@ -177,11 +190,13 @@ export const Booking = () => {
                   value={BookingInfo.contactPerson}
                   onChange={handleContactChange}
                   type="text"
+                  minLength={1}
+                  maxLength={15}
                   id="name"
                   name="name"
                   placeholder="Имя"
+                  pattern="^[a-zA-ZА-Яа-яЁё\s]+$"
                   required
-                  pattern="[А-Яа-яЁёA-Za-z'- ]{1,}"
                 />
               </div>
               <div className="custom-input booking-form__input">
@@ -207,6 +222,8 @@ export const Booking = () => {
                   value={BookingInfo.peopleCount}
                   onChange={handlePeopleChange}
                   type="number"
+                  min={peopleMinMax[0]}
+                  max={peopleMinMax[1]}
                   id="person"
                   name="person"
                   placeholder="Количество участников"
