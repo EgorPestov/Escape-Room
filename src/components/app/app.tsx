@@ -16,6 +16,8 @@ import { useAppSelector } from '../../hooks/useAppSelector/useAppSelector';
 import { getAuthStatus } from '../../store/user-process/selectors';
 import { PrivateLoginRoute } from '../private-routes/private-login-route/private-login-route';
 import { PrivateBookingRoute } from '../private-routes/private-booking-route/private-booking-route';
+import { LoadingScreen } from '../loading-screen/loading-screen';
+import { AuthStatus } from '../../const';
 
 export const App = () => {
   const dispatch = useAppDispatch();
@@ -34,51 +36,54 @@ export const App = () => {
   }, [dispatch]);
 
   const authStatus = useAppSelector(getAuthStatus);
-
-  return (
-    <HelmetProvider>
-      <Routes>
-        <Route
-          path={AppRoute.Root}
-          element={<Main />}
-        />
-        <Route
-          path={`${AppRoute.Quest}/:id`}
-          element={<Quest />}
-        />
-        <Route
-          path={`${AppRoute.Quest}/:id${AppRoute.Booking}`}
-          element={
-            <PrivateBookingRoute authorizationStatus={authStatus}>
-              <Booking />
-            </PrivateBookingRoute>
-          }
-        />
-        <Route
-          path={AppRoute.Login}
-          element={
-            <PrivateLoginRoute authorizationStatus={authStatus}>
-              <Login />
-            </PrivateLoginRoute>
-          }
-        />
-        <Route
-          path={AppRoute.Contacts}
-          element={<Contacts />}
-        />
-        <Route
-          path={AppRoute.MyQuests}
-          element={
-            <PrivateMyQuestsRoute authorizationStatus={authStatus}>
-              <MyQuests />
-            </PrivateMyQuestsRoute>
-          }
-        />
-        <Route
-          path='*'
-          element={<NotFound />}
-        />
-      </Routes>
-    </HelmetProvider>
-  );
+  if (authStatus === AuthStatus.Unknown) {
+    return <LoadingScreen />;
+  } else {
+    return (
+      <HelmetProvider>
+        <Routes>
+          <Route
+            path={AppRoute.Root}
+            element={<Main />}
+          />
+          <Route
+            path={`${AppRoute.Quest}/:id`}
+            element={<Quest />}
+          />
+          <Route
+            path={`${AppRoute.Quest}/:id${AppRoute.Booking}`}
+            element={
+              <PrivateBookingRoute authorizationStatus={authStatus}>
+                <Booking />
+              </PrivateBookingRoute>
+            }
+          />
+          <Route
+            path={AppRoute.Login}
+            element={
+              <PrivateLoginRoute authorizationStatus={authStatus}>
+                <Login />
+              </PrivateLoginRoute>
+            }
+          />
+          <Route
+            path={AppRoute.Contacts}
+            element={<Contacts />}
+          />
+          <Route
+            path={AppRoute.MyQuests}
+            element={
+              <PrivateMyQuestsRoute authorizationStatus={authStatus}>
+                <MyQuests />
+              </PrivateMyQuestsRoute>
+            }
+          />
+          <Route
+            path='*'
+            element={<NotFound />}
+          />
+        </Routes>
+      </HelmetProvider>
+    );
+  }
 };

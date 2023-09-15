@@ -2,7 +2,7 @@ import { AxiosInstance } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch } from '../hooks/useAppDispatch/useAppDispatch';
 import { State } from '../hooks/useAppSelector/useAppSelector';
-import { QuestType, FullQuestType, BookingType } from '../mocks';
+import { QuestType, FullQuestType, BookingType } from '../types';
 import { redirectToRoute } from './actions';
 import { APIRoute, AppRoute } from '../const';
 import { toast } from 'react-toastify';

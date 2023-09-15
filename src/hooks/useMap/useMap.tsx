@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef, MutableRefObject } from 'react';
-import { LocationType } from '../../mocks';
+import { LocationType } from '../../types';
 import { Map, TileLayer } from 'leaflet';
 
 const useMap = (

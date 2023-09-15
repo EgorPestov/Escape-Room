@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
-import { QuestType } from '../../mocks';
+import { QuestType } from '../../types';
 import { LevelFilterTypes } from '../../const';
 
 type QuestCardProps = QuestType;

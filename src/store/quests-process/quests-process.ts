@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { NameSpace, LevelFilterTypeKeys, GenreFilterTypeKeys } from '../../const';
-import { QuestType, FullQuestType, BookingType } from '../../mocks';
+import { QuestType, FullQuestType, BookingType } from '../../types';
 
 export type QuestsProcessType = {
   activePage: string;

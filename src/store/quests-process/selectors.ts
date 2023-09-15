@@ -1,6 +1,6 @@
 import { NameSpace } from '../../const';
 import { State } from '../../hooks/useAppSelector/useAppSelector';
-import { QuestType, FullQuestType, BookingType } from '../../mocks';
+import { QuestType, FullQuestType, BookingType } from '../../types';
 
 export const getActivePage = (state: State): string => state[NameSpace.Quests].activePage;
 export const getActiveSortByGenreType = (state: State): string => state[NameSpace.Quests].activeFilterByGenreType;

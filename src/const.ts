@@ -74,7 +74,7 @@ export const NameSpace = {
 export type NameSpaceType = typeof NameSpace;
 
 export const ValidationMessages = {
-  Name: 'Укажите имя (только буквы, допускается дефис и пробел)',
+  ContactPerson: 'Укажите имя (только буквы, допускается дефис и пробел)',
   Phone: 'Укажите номер телефона (в формате +79991112233)',
-  Person: 'Укажите количество участников',
+  PeopleCount: 'Укажите количество участников',
 } as const;

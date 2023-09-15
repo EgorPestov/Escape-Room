@@ -3,7 +3,7 @@ import { Header } from '../../components/header/header';
 import { Footer } from '../../components/footer/footer';
 import { Helmet } from 'react-helmet-async';
 import { useAppDispatch } from '../../hooks/useAppDispatch/useAppDispatch';
-import { useLayoutEffect, useEffect, useState, ChangeEvent, FormEvent } from 'react';
+import { useLayoutEffect, useEffect, useState, ChangeEvent } from 'react';
 import { useAppSelector } from '../../hooks/useAppSelector/useAppSelector';
 import { getFullQuest, getFullQuestLoadStatus, getBookings, getActiveBooking } from '../../store/quests-process/selectors';
 import { LoadingScreen } from '../../components/loading-screen/loading-screen';
@@ -11,12 +11,23 @@ import { Map } from '../../components/map/map';
 import { fetchBookings, fetchFullQuest } from '../../store/api-actions';
 import { formatTime } from '../../utils';
 import { bookQuest } from '../../store/api-actions';
-import { useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import classes from './booking.module.css';
-import { ValidationMessages } from '../../const';
+import { MAP_ZOOM_VALUE, SAINT_P_COORDS, ValidationMessages } from '../../const';
+import { MapContainer } from 'react-leaflet';
+
+type BookingData = {
+  date: string;
+  time: string;
+  contactPerson: string;
+  phone: string;
+  withChildren: boolean;
+  peopleCount: number;
+  placeId: string;
+};
 
 export const Booking = () => {
-  const [BookingInfo, setBookingInfo] = useState({
+  const [BookingInfo, setBookingInfo] = useState<BookingData>({
     date: '',
     time: '',
     contactPerson: '',
@@ -26,7 +37,7 @@ export const Booking = () => {
     placeId: ''
   });
 
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm<BookingData>();
   const currentId = useParams().id;
   const dispatch = useAppDispatch();
   const fullQuest = useAppSelector(getFullQuest);
@@ -58,7 +69,7 @@ export const Booking = () => {
   }
 
   const { id, location, slots } = currentBooking;
-  const { title, level, type, peopleMinMax, description, coverImg, coverImgWebp } = fullQuest;
+  const { title, peopleMinMax, coverImg, coverImgWebp } = fullQuest;
 
   const handleContactChange = (evt: ChangeEvent<HTMLInputElement>) => {
     setBookingInfo({ ...BookingInfo, contactPerson: evt.target.value });
@@ -73,14 +84,16 @@ export const Booking = () => {
   };
 
   const handleSlotChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    setBookingInfo({ ...BookingInfo, date: evt.target.dataset.day, time: evt.target.dataset.time, placeId: id });
+    if (evt.target.dataset.day && evt.target.dataset.time) {
+      setBookingInfo({ ...BookingInfo, date: evt.target.dataset.day, time: evt.target.dataset.time, placeId: id });
+    }
   };
 
   const handleChildrenChange = (evt: ChangeEvent<HTMLInputElement>) => {
     setBookingInfo({ ...BookingInfo, withChildren: evt.target.checked });
   };
 
-  const onSubmit = () => {
+  const onSubmit: SubmitHandler<FormData> = () => {
     dispatch(bookQuest({
       id: currentId,
       date: BookingInfo.date,
@@ -96,7 +109,7 @@ export const Booking = () => {
   const validateName = (value: string) => {
     const namePattern = /^[a-zA-Zа-яА-Я\s-]*$/;
     if (!namePattern.test(value)) {
-      return ValidationMessages.Name;
+      return ValidationMessages.ContactPerson;
     }
     return true;
   };
@@ -151,7 +164,11 @@ export const Booking = () => {
           </div>
           <div className="page-content__item">
             <div className="booking-map">
-              <Map bookings={bookings} selectedId={id} />
+              <div className="map">
+                <MapContainer className="map__container" attributionControl={false} center={SAINT_P_COORDS} zoom={MAP_ZOOM_VALUE} scrollWheelZoom={false} zoomControl>
+                  <Map bookings={bookings} selectedId={id} />
+                </MapContainer>
+              </div>
               <p className="booking-map__address">
                 Вы выбрали: {location.address}
               </p>
@@ -221,9 +238,9 @@ export const Booking = () => {
                   maxLength={15}
                   id="name"
                   placeholder="Имя"
-                  {...register('name', { required: ValidationMessages.Name, onChange: handleContactChange, validate: validateName })}
+                  {...register('contactPerson', { required: ValidationMessages.ContactPerson, onChange: handleContactChange, validate: validateName })}
                 />
-                {errors.name && <span role="alert" className={classes.validation}>{errors.name?.message}</span>}
+                {errors.contactPerson && <span role="alert" className={classes.validation}>{errors.contactPerson?.message}</span>}
               </div>
               <div className="custom-input booking-form__input">
                 <label className="custom-input__label" htmlFor="tel">
@@ -235,9 +252,9 @@ export const Booking = () => {
                   maxLength={12}
                   id="tel"
                   placeholder="Телефон"
-                  {...register('tel', { required: ValidationMessages.Phone, onChange: handlePhoneChange, validate: validatePhone })}
+                  {...register('phone', { required: ValidationMessages.Phone, onChange: handlePhoneChange, validate: validatePhone })}
                 />
-                {errors.tel && <span role="alert" className={classes.validation}>{errors.tel?.message}</span>}
+                {errors.phone && <span role="alert" className={classes.validation}>{errors.phone?.message}</span>}
               </div>
               <div className="custom-input booking-form__input">
                 <label className="custom-input__label" htmlFor="person">
@@ -249,9 +266,9 @@ export const Booking = () => {
                   id="person"
                   placeholder="Количество участников"
                   required
-                  {...register('person', {required: ValidationMessages.Person, onChange: handlePersonChange, validate: validatePerson})}
+                  {...register('peopleCount', { required: ValidationMessages.PeopleCount, onChange: handlePersonChange, validate: validatePerson })}
                 />
-                {errors.person && <span role="alert" className={classes.validation}>{errors.person?.message}</span>}
+                {errors.peopleCount && <span role="alert" className={classes.validation}>{errors.peopleCount?.message}</span>}
               </div>
               <label className="custom-checkbox booking-form__checkbox booking-form__checkbox--children">
                 <input
