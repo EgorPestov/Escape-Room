@@ -55,7 +55,7 @@ export const Login = () => {
           <div className="login__form">
             <form
               className="login-form"
-              action="https://echo.htmlacademy.ru/"
+              action=""
               method="post"
               onSubmit={handleSubmit}
             >

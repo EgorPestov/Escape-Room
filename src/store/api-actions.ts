@@ -4,11 +4,11 @@ import { AppDispatch } from '../hooks/useAppDispatch/useAppDispatch';
 import { State } from '../hooks/useAppSelector/useAppSelector';
 import { QuestType, FullQuestType, BookingType } from '../types';
 import { redirectToRoute } from './actions';
-import { APIRoute, AppRoute } from '../const';
+import { APIRoute, AppPage, AppRoute } from '../const';
 import { toast } from 'react-toastify';
 import {
   setError, setQuests, setBackupQuests, setQuestsLoadStatus, setBookings,
-  setBookingsLoadStatus, setFullQuest, setFullQuestLoadStatus, setNeededPage, setActiveBookingId
+  setBookingsLoadStatus, setFullQuest, setFullQuestLoadStatus, setNeededPage, setActiveBookingId, setActivePage
 } from './quests-process/quests-process';
 import { saveToken, dropToken } from '../services/token';
 import { setUserData } from './user-process/user-process';
@@ -98,6 +98,7 @@ export const bookQuest = createAsyncThunk<void, BookingData, thunkObjType>(
     try {
       const url = id !== undefined ? `${APIRoute.Quests}/${id}${APIRoute.Booking}` : '';
       await api.post<BookingData>(url, { date, time, contactPerson, phone, withChildren, peopleCount, placeId });
+      dispatch(setActivePage(AppPage.MyQuests));
       dispatch(redirectToRoute(AppRoute.MyQuests));
     } catch {
       throw new Error;

@@ -78,3 +78,9 @@ export const ValidationMessages = {
   Phone: 'Укажите номер телефона (в формате +79991112233)',
   PeopleCount: 'Укажите количество участников',
 } as const;
+
+export const AppPage = {
+  Main: 'Квесты',
+  Contacts: 'Контакты',
+  MyQuests: 'Мои бронирования',
+} as const;

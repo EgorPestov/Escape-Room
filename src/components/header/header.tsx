@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { AppRoute, AuthStatus } from '../../const';
+import { AppRoute, AuthStatus, AppPage } from '../../const';
 import { getStyleForNavLink } from '../../utils';
 import { useAppDispatch } from '../../hooks/useAppDispatch/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector/useAppSelector';
@@ -31,32 +31,32 @@ export const Header = () => {
           <ul className="main-nav__list">
             <li className="main-nav__item">
               <NavLink
-                className={`link ${activePage === 'квесты' ? 'active' : ''}`}
+                className={`link ${activePage === AppPage.Main ? 'active' : ''}`}
                 to={AppRoute.Root}
                 style={getStyleForNavLink}
-                onClick={() => dispatch(setActivePage('квесты'))}
+                onClick={() => dispatch(setActivePage(AppPage.Main))}
               >
-                Квесты
+                {AppPage.Main}
               </NavLink>
             </li>
             <li className="main-nav__item">
               <NavLink
-                className={`link ${activePage === 'контакты' ? 'active' : ''}`}
+                className={`link ${activePage === AppPage.Contacts ? 'active' : ''}`}
                 to={AppRoute.Contacts}
                 style={getStyleForNavLink}
-                onClick={() => dispatch(setActivePage('контакты'))}
+                onClick={() => dispatch(setActivePage(AppPage.Contacts))}
               >
-                Контакты
+                {AppPage.Contacts}
               </NavLink>
             </li>
             <li className="main-nav__item">
               {authStatus === AuthStatus.Auth ?
                 <NavLink
-                  className={`link ${activePage === 'мои бронирования' ? 'active' : ''}`}
+                  className={`link ${activePage === AppPage.MyQuests ? 'active' : ''}`}
                   to={AppRoute.MyQuests}
-                  onClick={() => dispatch(setActivePage('мои бронирования'))}
+                  onClick={() => dispatch(setActivePage(AppPage.MyQuests))}
                 >
-                  Мои бронирования
+                  {AppPage.MyQuests}
                 </NavLink> : ''}
             </li>
           </ul>

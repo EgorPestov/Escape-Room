@@ -6,9 +6,12 @@ import { FilterForm } from '../../components/filter-form/filter-form';
 import { QuestsList } from '../../components/quests-list/quests-list';
 import { useAppDispatch } from '../../hooks/useAppDispatch/useAppDispatch';
 import { filterQuests, setActiveFilterByGenreType, setActiveFilterByLevelType } from '../../store/quests-process/quests-process';
+import { useAppSelector } from '../../hooks/useAppSelector/useAppSelector';
+import { getQuests } from '../../store/quests-process/selectors';
 
 export const Main = () => {
   const dispatch = useAppDispatch();
+  const quests = useAppSelector(getQuests);
   useEffect(() => {
     dispatch(setActiveFilterByGenreType('all-quests'));
     dispatch(setActiveFilterByLevelType('all'));
@@ -35,6 +38,7 @@ export const Main = () => {
           <FilterForm />
           <h2 className="title visually-hidden">Выберите квест</h2>
           <QuestsList />
+          <h1 className={quests.length === 0 ? '' : 'visually-hidden'}>Квестов нет, но вы держитесь</h1>
         </div>
       </main>
       <Footer />
