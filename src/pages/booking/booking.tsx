@@ -11,6 +11,9 @@ import { Map } from '../../components/map/map';
 import { fetchBookings, fetchFullQuest } from '../../store/api-actions';
 import { formatTime } from '../../utils';
 import { bookQuest } from '../../store/api-actions';
+import { useForm } from 'react-hook-form';
+import classes from './booking.module.css';
+import { ValidationMessages } from '../../const';
 
 export const Booking = () => {
   const [BookingInfo, setBookingInfo] = useState({
@@ -23,6 +26,7 @@ export const Booking = () => {
     placeId: ''
   });
 
+  const { register, handleSubmit, formState: { errors } } = useForm();
   const currentId = useParams().id;
   const dispatch = useAppDispatch();
   const fullQuest = useAppSelector(getFullQuest);
@@ -64,7 +68,7 @@ export const Booking = () => {
     setBookingInfo({ ...BookingInfo, phone: evt.target.value });
   };
 
-  const handlePeopleChange = (evt: ChangeEvent<HTMLInputElement>) => {
+  const handlePersonChange = (evt: ChangeEvent<HTMLInputElement>) => {
     setBookingInfo({ ...BookingInfo, peopleCount: Number(evt.target.value) });
   };
 
@@ -76,8 +80,7 @@ export const Booking = () => {
     setBookingInfo({ ...BookingInfo, withChildren: evt.target.checked });
   };
 
-  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
-    evt.preventDefault();
+  const onSubmit = () => {
     dispatch(bookQuest({
       id: currentId,
       date: BookingInfo.date,
@@ -90,6 +93,31 @@ export const Booking = () => {
     }));
   };
 
+  const validateName = (value: string) => {
+    const namePattern = /^[a-zA-Zа-яА-Я\s-]*$/;
+    if (!namePattern.test(value)) {
+      return ValidationMessages.Name;
+    }
+    return true;
+  };
+
+  const validatePhone = (value: string) => {
+    const phonePattern = /^\+[0-9]{11}$/;
+    if (!phonePattern.test(value)) {
+      return ValidationMessages.Phone;
+    }
+    return true;
+  };
+
+  const validatePerson = (value: number) => {
+    if (value < peopleMinMax[0]) {
+      return `Минимальное количество участников: ${peopleMinMax[0]}`;
+    } else if (value > peopleMinMax[1]) {
+      return `Максимальное количество участников: ${peopleMinMax[1]}`;
+    } else {
+      return true;
+    }
+  };
 
   return (
     <div className="wrapper">
@@ -130,7 +158,7 @@ export const Booking = () => {
             </div>
           </div>
           <form
-            onSubmit={handleSubmit}
+            onSubmit={handleSubmit(onSubmit)}
             className="booking-form"
             action="https://echo.htmlacademy.ru/"
             method="post"
@@ -188,16 +216,14 @@ export const Booking = () => {
                 </label>
                 <input
                   value={BookingInfo.contactPerson}
-                  onChange={handleContactChange}
                   type="text"
                   minLength={1}
                   maxLength={15}
                   id="name"
-                  name="name"
                   placeholder="Имя"
-                  pattern="^[a-zA-ZА-Яа-яЁё\s]+$"
-                  required
+                  {...register('name', { required: ValidationMessages.Name, onChange: handleContactChange, validate: validateName })}
                 />
+                {errors.name && <span role="alert" className={classes.validation}>{errors.name?.message}</span>}
               </div>
               <div className="custom-input booking-form__input">
                 <label className="custom-input__label" htmlFor="tel">
@@ -205,14 +231,13 @@ export const Booking = () => {
                 </label>
                 <input
                   value={BookingInfo.phone}
-                  onChange={handlePhoneChange}
                   type="tel"
+                  maxLength={12}
                   id="tel"
-                  name="tel"
                   placeholder="Телефон"
-                  required
-                  pattern="[0-9]{10,}"
+                  {...register('tel', { required: ValidationMessages.Phone, onChange: handlePhoneChange, validate: validatePhone })}
                 />
+                {errors.tel && <span role="alert" className={classes.validation}>{errors.tel?.message}</span>}
               </div>
               <div className="custom-input booking-form__input">
                 <label className="custom-input__label" htmlFor="person">
@@ -220,15 +245,13 @@ export const Booking = () => {
                 </label>
                 <input
                   value={BookingInfo.peopleCount}
-                  onChange={handlePeopleChange}
                   type="number"
-                  min={peopleMinMax[0]}
-                  max={peopleMinMax[1]}
                   id="person"
-                  name="person"
                   placeholder="Количество участников"
                   required
+                  {...register('person', {required: ValidationMessages.Person, onChange: handlePersonChange, validate: validatePerson})}
                 />
+                {errors.person && <span role="alert" className={classes.validation}>{errors.person?.message}</span>}
               </div>
               <label className="custom-checkbox booking-form__checkbox booking-form__checkbox--children">
                 <input
