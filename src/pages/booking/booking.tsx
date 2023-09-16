@@ -177,7 +177,7 @@ export const Booking = () => {
             </div>
           </div>
           <form
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={(event) => void handleSubmit(onSubmit)(event)}
             className="booking-form"
             action=""
             method="post"
