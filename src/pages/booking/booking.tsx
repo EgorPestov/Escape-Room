@@ -7,13 +7,13 @@ import { useLayoutEffect, useEffect, useState, ChangeEvent } from 'react';
 import { useAppSelector } from '../../hooks/useAppSelector/useAppSelector';
 import { getFullQuest, getFullQuestLoadStatus, getBookings, getActiveBooking } from '../../store/quests-process/selectors';
 import { LoadingScreen } from '../../components/loading-screen/loading-screen';
-import { Map } from '../../components/map/map';
+import { BookingMap } from '../../components/maps/booking-map';
 import { fetchBookings, fetchFullQuest } from '../../store/api-actions';
 import { formatTime } from '../../utils';
 import { bookQuest } from '../../store/api-actions';
 import { useForm } from 'react-hook-form';
 import classes from './booking.module.css';
-import { MAP_ZOOM_VALUE, SAINT_P_COORDS, ValidationMessages } from '../../const';
+import { MAP_ZOOM_VALUE_CITY, SAINT_P_COORDS, ValidationMessages } from '../../const';
 import { MapContainer } from 'react-leaflet';
 
 type BookingData = {
@@ -167,8 +167,8 @@ export const Booking = () => {
           <div className="page-content__item">
             <div className="booking-map">
               <div className="map">
-                <MapContainer className="map__container" attributionControl={false} center={SAINT_P_COORDS} zoom={MAP_ZOOM_VALUE} scrollWheelZoom={false} zoomControl>
-                  <Map bookings={bookings} selectedId={id} />
+                <MapContainer className="map__container" attributionControl={false} center={SAINT_P_COORDS} zoom={MAP_ZOOM_VALUE_CITY} scrollWheelZoom={false} zoomControl>
+                  <BookingMap bookings={bookings} selectedId={id} />
                 </MapContainer>
               </div>
               <p className="booking-map__address">

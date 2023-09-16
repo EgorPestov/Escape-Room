@@ -1,8 +1,11 @@
 import { LatLngExpression } from 'leaflet';
 
 export const SAINT_P_COORDS = [59.9386, 30.3141] as LatLngExpression;
+export const OFFICE_COORDS = [59.968456, 30.31759] as LatLngExpression;
 
-export const MAP_ZOOM_VALUE = 10;
+export const MAP_ZOOM_VALUE_CITY = 10;
+
+export const MAP_ZOOM_VALUE_OFFICE = 11;
 
 export const URL_MARKER_DEFAULT = '/markup/img/svg/pin-default.svg';
 

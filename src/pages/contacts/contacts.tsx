@@ -1,6 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import { Header } from '../../components/header/header';
 import { Footer } from '../../components/footer/footer';
+import { ContactsMap } from '../../components/maps/contacts-map';
 
 export const Contacts = () => (
   <div className="wrapper">
@@ -67,7 +68,7 @@ export const Contacts = () => (
           </dl>
           <div className="contacts__map">
             <div className="map">
-              <div className="map__container" />
+              <ContactsMap />
             </div>
           </div>
         </div>

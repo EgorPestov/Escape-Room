@@ -7,7 +7,7 @@ import { Icon } from 'leaflet';
 import { useAppDispatch } from '../../hooks/useAppDispatch/useAppDispatch';
 import { setActiveBookingId } from '../../store/quests-process/quests-process';
 import { getActiveBookingId } from '../../store/quests-process/selectors';
-import { URL_MARKER_ACTIVE, URL_MARKER_DEFAULT, MAP_ZOOM_VALUE } from '../../const';
+import { URL_MARKER_ACTIVE, URL_MARKER_DEFAULT, MAP_ZOOM_VALUE_CITY } from '../../const';
 import { useAppSelector } from '../../hooks/useAppSelector/useAppSelector';
 
 const defaultIcon = new Icon({
@@ -27,7 +27,7 @@ type MapProps = {
   selectedId: string | undefined;
 };
 
-export const Map = ({ bookings, selectedId }: MapProps) => {
+export const BookingMap = ({ bookings, selectedId }: MapProps) => {
   const dispatch = useAppDispatch();
   const activeId = useAppSelector(getActiveBookingId);
   const map = useMap();
@@ -45,7 +45,7 @@ export const Map = ({ bookings, selectedId }: MapProps) => {
         marker.setIcon(activeId !== undefined && id === activeId ? activeIcon : defaultIcon);
         marker.on('click', () => {
           dispatch(setActiveBookingId(id));
-          map.setView(coords, MAP_ZOOM_VALUE);
+          map.setView(coords, MAP_ZOOM_VALUE_CITY);
         });
       });
     }
