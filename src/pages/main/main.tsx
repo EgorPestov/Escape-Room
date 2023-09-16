@@ -5,9 +5,10 @@ import { Footer } from '../../components/footer/footer';
 import { FilterForm } from '../../components/filter-form/filter-form';
 import { QuestsList } from '../../components/quests-list/quests-list';
 import { useAppDispatch } from '../../hooks/useAppDispatch/useAppDispatch';
-import { filterQuests, setActiveFilterByGenreType, setActiveFilterByLevelType } from '../../store/quests-process/quests-process';
+import { filterQuests, setActiveFilterByGenreType, setActiveFilterByLevelType, setActivePage } from '../../store/quests-process/quests-process';
 import { useAppSelector } from '../../hooks/useAppSelector/useAppSelector';
 import { getQuests } from '../../store/quests-process/selectors';
+import { AppPage } from '../../const';
 
 export const Main = () => {
   const dispatch = useAppDispatch();
@@ -15,6 +16,7 @@ export const Main = () => {
   useEffect(() => {
     dispatch(setActiveFilterByGenreType('all-quests'));
     dispatch(setActiveFilterByLevelType('all'));
+    dispatch(setActivePage(AppPage.Main));
     dispatch(filterQuests());
   }, [dispatch]);
 
