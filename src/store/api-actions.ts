@@ -153,6 +153,9 @@ export const login = createAsyncThunk<void, AuthData, thunkObjType>(
       const neededPage = getState().QUESTS.neededPage;
       dispatch(checkAuth());
       dispatch(redirectToRoute(neededPage));
+    } catch {
+      toast.error('Server is not available, please try again');
+      throw new Error;
     } finally {
       setTimeout(() => dispatch(setNeededPage(AppRoute.Root)), 1000);
     }
@@ -162,7 +165,12 @@ export const login = createAsyncThunk<void, AuthData, thunkObjType>(
 export const logout = createAsyncThunk<void, undefined, thunkObjType>(
   'USER/logout',
   async (_arg, { extra: api }) => {
-    await api.delete(APIRoute.Logout);
-    dropToken();
+    try {
+      await api.delete(APIRoute.Logout);
+      dropToken();
+    } catch {
+      toast.error('Server is not available, please try again');
+      throw new Error;
+    }
   }
 );
