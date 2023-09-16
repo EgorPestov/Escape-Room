@@ -12,6 +12,7 @@ import {
 } from './quests-process/quests-process';
 import { saveToken, dropToken } from '../services/token';
 import { setUserData } from './user-process/user-process';
+import { filterUniqueAddresses } from '../utils';
 
 type thunkObjType = {
   dispatch: AppDispatch;
@@ -82,7 +83,7 @@ export const fetchBookings = createAsyncThunk<void, { id: string | undefined }, 
       dispatch(setBookingsLoadStatus(true));
       const url = id !== undefined ? `${APIRoute.Quests}/${id}${APIRoute.Booking}` : '';
       const { data } = await api.get<BookingType[]>(url);
-      dispatch(setBookings(data));
+      dispatch(setBookings(filterUniqueAddresses(data)));
       dispatch(setActiveBookingId(data[0].id));
       dispatch(setBookingsLoadStatus(false));
     } catch {

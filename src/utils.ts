@@ -1,3 +1,5 @@
+import { BookingType } from './types';
+
 export const getStyleForNavLink = ({ isActive }: { isActive: boolean }) =>
   isActive
     ? {
@@ -18,3 +20,19 @@ export const formatTime = (timeString: string, date: string) => {
 
   return `${date}${formattedHours}h${formattedMinutes}m`;
 };
+
+export const filterUniqueAddresses = (data: BookingType[]) => {
+  const uniqueAddresses = new Set();
+  const filteredData = [];
+
+  for (const item of data) {
+    if (!uniqueAddresses.has(item.location.address)) {
+      uniqueAddresses.add(item.location.address);
+      filteredData.push(item);
+    }
+  }
+
+  return filteredData;
+};
+
+

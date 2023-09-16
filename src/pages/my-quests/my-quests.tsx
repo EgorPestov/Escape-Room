@@ -22,7 +22,7 @@ export const MyQuests = () => (
             srcSet="img/content/maniac/maniac-bg-size-m@2x.jpg 2x"
             width={1366}
             height={1959}
-            alt=""
+            alt="Фоновая картинка"
           />
         </picture>
       </div>
