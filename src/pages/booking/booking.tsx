@@ -13,7 +13,7 @@ import { formatTime } from '../../utils';
 import { bookQuest } from '../../store/api-actions';
 import { useForm } from 'react-hook-form';
 import classes from './booking.module.css';
-import { MAP_ZOOM_VALUE_CITY, SAINT_P_COORDS, ValidationMessages } from '../../const';
+import { CONTACT_NAME_MAX_LENGTH, CONTACT_NAME_MIN_LENGTH, Dates, FORM_NAME_REGEXP, FORM_PHONE_REGEXP, MAP_ZOOM_VALUE_CITY, PHONE_MAX_LENGTH, SAINT_P_COORDS, ValidationMessages } from '../../const';
 import { MapContainer } from 'react-leaflet';
 
 type BookingData = {
@@ -109,16 +109,14 @@ export const Booking = () => {
   };
 
   const validateName = (value: string) => {
-    const namePattern = /^[a-zA-Zа-яА-Я\s-]*$/;
-    if (!namePattern.test(value)) {
+    if (!FORM_NAME_REGEXP.test(value)) {
       return ValidationMessages.ContactPerson;
     }
     return true;
   };
 
   const validatePhone = (value: string) => {
-    const phonePattern = /^\+[0-9]{11}$/;
-    if (!phonePattern.test(value)) {
+    if (!FORM_PHONE_REGEXP.test(value)) {
       return ValidationMessages.Phone;
     }
     return true;
@@ -192,14 +190,14 @@ export const Booking = () => {
                       <input
                         onChange={handleSlotChange}
                         data-time={slot.time}
-                        data-day={'today'}
+                        data-day={Dates.today}
                         type="radio"
-                        id={formatTime(slot.time, 'today')}
+                        id={formatTime(slot.time, Dates.today)}
                         name="date"
                         required
-                        defaultValue={formatTime(slot.time, 'today')}
+                        defaultValue={formatTime(slot.time, Dates.today)}
                         disabled={!slot.isAvailable}
-                        checked={selectedSlot === formatTime(slot.time, 'today')}
+                        checked={selectedSlot === formatTime(slot.time, Dates.today)}
                       />
                       <span className="custom-radio__label">{slot.time}</span>
                     </label>
@@ -214,14 +212,14 @@ export const Booking = () => {
                       <input
                         onChange={handleSlotChange}
                         data-time={slot.time}
-                        data-day={'tomorrow'}
+                        data-day={Dates.tomorrow}
                         type="radio"
-                        id={formatTime(slot.time, 'tomorrow')}
+                        id={formatTime(slot.time, Dates.tomorrow)}
                         name="date"
                         required
-                        defaultValue={formatTime(slot.time, 'tomorrow')}
+                        defaultValue={formatTime(slot.time, Dates.tomorrow)}
                         disabled={!slot.isAvailable}
-                        checked={selectedSlot === formatTime(slot.time, 'tomorrow')}
+                        checked={selectedSlot === formatTime(slot.time, Dates.tomorrow)}
                       />
                       <span className="custom-radio__label">{slot.time}</span>
                     </label>
@@ -238,8 +236,8 @@ export const Booking = () => {
                 <input
                   value={BookingInfo.contactPerson}
                   type="text"
-                  minLength={1}
-                  maxLength={15}
+                  minLength={CONTACT_NAME_MIN_LENGTH}
+                  maxLength={CONTACT_NAME_MAX_LENGTH}
                   id="name"
                   placeholder="Имя"
                   {...register('contactPerson', { required: ValidationMessages.ContactPerson, onChange: handleContactChange, validate: validateName })}
@@ -253,7 +251,7 @@ export const Booking = () => {
                 <input
                   value={BookingInfo.phone}
                   type="tel"
-                  maxLength={12}
+                  maxLength={PHONE_MAX_LENGTH}
                   id="tel"
                   placeholder="Телефон"
                   {...register('phone', { required: ValidationMessages.Phone, onChange: handlePhoneChange, validate: validatePhone })}

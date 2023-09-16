@@ -11,6 +11,22 @@ export const URL_MARKER_DEFAULT = '/markup/img/svg/pin-default.svg';
 
 export const URL_MARKER_ACTIVE = '/markup/img/svg/pin-active.svg';
 
+export const PASSWORD_MIN_LENGTH = 3;
+
+export const PASSWORD_MAX_LENGTH = 15;
+
+export const PASSWORD_REGEXP = /^(?=.*[A-Za-zА-Яа-я])(?=.*\d).{3,15}$/;
+
+export const FORM_NAME_REGEXP = /^[a-zA-Zа-яА-Я\s-]*$/;
+
+export const FORM_PHONE_REGEXP = /^\+[0-9]{11}$/;
+
+export const CONTACT_NAME_MIN_LENGTH = 1;
+
+export const CONTACT_NAME_MAX_LENGTH = 15;
+
+export const PHONE_MAX_LENGTH = 12;
+
 export const AppRoute = {
   Root: '/',
   Login: '/login',
@@ -86,6 +102,11 @@ export const AppPage = {
   Main: 'Квесты',
   Contacts: 'Контакты',
   MyQuests: 'Мои бронирования',
+} as const;
+
+export const Dates = {
+  today: 'today',
+  tomorrow: 'tomorrow',
 } as const;
 
 export const DateTranslates = {

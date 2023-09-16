@@ -4,12 +4,13 @@ import { Footer } from '../../components/footer/footer';
 import { FormEvent, useState, ChangeEvent } from 'react';
 import { login } from '../../store/api-actions';
 import { useAppDispatch } from '../../hooks/useAppDispatch/useAppDispatch';
+import { PASSWORD_MAX_LENGTH, PASSWORD_MIN_LENGTH, PASSWORD_REGEXP } from '../../const';
 
 export const Login = () => {
   const dispatch = useAppDispatch();
   const [AuthInfo, setAuthInfo] = useState({ login: '', password: '' });
 
-  const isValidPassword = AuthInfo.password.length >= 3 && AuthInfo.password.length <= 15;
+  const isValidPassword = PASSWORD_REGEXP.test(AuthInfo.password);
   const isNeedDisable = !AuthInfo.login || !isValidPassword;
 
   const handleLoginChange = (evt: ChangeEvent<HTMLInputElement>) => {
@@ -83,6 +84,8 @@ export const Login = () => {
                     <input
                       value={AuthInfo.password}
                       onChange={handlePasswordChange}
+                      minLength={PASSWORD_MIN_LENGTH}
+                      maxLength={PASSWORD_MAX_LENGTH}
                       type="password"
                       id="password"
                       name="password"
@@ -98,9 +101,14 @@ export const Login = () => {
                 >
                   Войти
                 </button>
-                {isNeedDisable && (
+                {!AuthInfo.login && (
                   <p style={{ color: 'red' }}>
-                    Длина пароля должна быть от 3 до 15 символов
+                    Введите e-mail
+                  </p>
+                )}
+                {!isValidPassword && (
+                  <p style={{ color: 'red' }}>
+                    Длина пароля должна быть от {PASSWORD_MIN_LENGTH} до {PASSWORD_MAX_LENGTH} символов (минимум 1 буква и 1 символ)
                   </p>
                 )}
               </div>
