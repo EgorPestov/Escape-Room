@@ -84,3 +84,8 @@ export const AppPage = {
   Contacts: 'Контакты',
   MyQuests: 'Мои бронирования',
 } as const;
+
+export const DateTranslates = {
+  'today': 'сегодня',
+  'tomorrow': 'завтра',
+} as const;

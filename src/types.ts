@@ -41,3 +41,15 @@ export type Times = {
   time: string;
   isAvailable: boolean;
 }
+
+export type ReservationType = {
+  date: 'today' | 'tomorrow';
+  time: string;
+  contactPerson: string;
+  phone: string;
+  withChildren: boolean;
+  peopleCount: number;
+  id: string;
+  location: LocationType;
+  quest: QuestType;
+};

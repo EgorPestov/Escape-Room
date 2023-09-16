@@ -1,6 +1,6 @@
 import { NameSpace } from '../../const';
 import { State } from '../../hooks/useAppSelector/useAppSelector';
-import { QuestType, FullQuestType, BookingType } from '../../types';
+import { QuestType, FullQuestType, BookingType, ReservationType } from '../../types';
 
 export const getActivePage = (state: State): string => state[NameSpace.Quests].activePage;
 export const getActiveSortByGenreType = (state: State): string => state[NameSpace.Quests].activeFilterByGenreType;
@@ -14,6 +14,8 @@ export const getNeededPage = (state: State): string => state[NameSpace.Quests].n
 export const getBookings = (state: State): BookingType[] | null => state[NameSpace.Quests].bookings;
 export const getBookingsLoadStatus = (state: State): boolean => state[NameSpace.Quests].isBookingsLoading;
 export const getActiveBookingId = (state: State): string | undefined => state[NameSpace.Quests].activeBookingId;
+export const getReservations = (state: State): ReservationType[] => state[NameSpace.Quests].reservations;
+export const getReservationsLoadStatus = (state: State): boolean => state[NameSpace.Quests].isReservationsLoading;
 export const getActiveBooking = (state: State): BookingType | undefined => {
   if (state[NameSpace.Quests].activeBookingId !== undefined) {
     return state[NameSpace.Quests].bookings?.filter((booking) => booking.id === state[NameSpace.Quests].activeBookingId)[0];

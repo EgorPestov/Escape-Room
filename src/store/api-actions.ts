@@ -2,13 +2,13 @@ import { AxiosInstance } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch } from '../hooks/useAppDispatch/useAppDispatch';
 import { State } from '../hooks/useAppSelector/useAppSelector';
-import { QuestType, FullQuestType, BookingType } from '../types';
+import { QuestType, FullQuestType, BookingType, ReservationType } from '../types';
 import { redirectToRoute } from './actions';
 import { APIRoute, AppPage, AppRoute } from '../const';
 import { toast } from 'react-toastify';
 import {
   setError, setQuests, setBackupQuests, setQuestsLoadStatus, setBookings,
-  setBookingsLoadStatus, setFullQuest, setFullQuestLoadStatus, setNeededPage, setActiveBookingId, setActivePage
+  setBookingsLoadStatus, setFullQuest, setFullQuestLoadStatus, setNeededPage, setActiveBookingId, setActivePage, setReservationsLoadStatus, setReservations
 } from './quests-process/quests-process';
 import { saveToken, dropToken } from '../services/token';
 import { setUserData } from './user-process/user-process';
@@ -88,6 +88,35 @@ export const fetchBookings = createAsyncThunk<void, { id: string | undefined }, 
       dispatch(setBookingsLoadStatus(false));
     } catch {
       toast.error('Bookings are not available, please try again');
+      throw new Error;
+    }
+  }
+);
+
+export const fetchReservations = createAsyncThunk<void, undefined, thunkObjType>(
+  'QUESTS/fetchReservations',
+  async (_arg, { dispatch, extra: api }) => {
+    try {
+      dispatch(setReservationsLoadStatus(true));
+      const { data } = await api.get<ReservationType[]>(APIRoute.Reservations);
+      dispatch(setReservations(data));
+      dispatch(setReservationsLoadStatus(false));
+    } catch {
+      toast.error('Reservations are not available, please try again');
+      throw new Error;
+    }
+  }
+);
+
+export const deleteReservation = createAsyncThunk<void, { id: string | undefined }, thunkObjType>(
+  'QUESTS/deleteReservation',
+  async ({ id }, { dispatch, extra: api }) => {
+    try {
+      const url = id !== undefined ? `${APIRoute.Reservations}/${id}` : '';
+      await api.delete(url);
+      dispatch(fetchReservations());
+    } catch {
+      toast.error('Can\'t delete reservation, please try again');
       throw new Error;
     }
   }

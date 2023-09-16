@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { NameSpace, LevelFilterTypeKeys, GenreFilterTypeKeys } from '../../const';
-import { QuestType, FullQuestType, BookingType } from '../../types';
+import { QuestType, FullQuestType, BookingType, ReservationType } from '../../types';
 
 export type QuestsProcessType = {
   activePage: string;
@@ -16,6 +16,8 @@ export type QuestsProcessType = {
   neededPage: string;
   hasError: boolean;
   activeBookingId: string | undefined;
+  reservations: ReservationType[];
+  isReservationsLoading: boolean;
 }
 
 export const initialState: QuestsProcessType = {
@@ -32,6 +34,8 @@ export const initialState: QuestsProcessType = {
   neededPage: '/',
   hasError: false,
   activeBookingId: undefined,
+  reservations: [],
+  isReservationsLoading: false,
 };
 
 export const questsProcessSlice = createSlice({
@@ -77,6 +81,12 @@ export const questsProcessSlice = createSlice({
     setNeededPage: (state, action: PayloadAction<string>) => {
       state.neededPage = action.payload;
     },
+    setReservations: (state, action: PayloadAction<ReservationType[]>) => {
+      state.reservations = action.payload;
+    },
+    setReservationsLoadStatus: (state, action: PayloadAction<boolean>) => {
+      state.isReservationsLoading = action.payload;
+    },
     filterQuests: (state) => {
       state.quests = state.backupQuests;
       if (state.activeFilterByGenreType === 'all-quests' && state.activeFilterByLevelType === 'all') {
@@ -94,4 +104,4 @@ export const questsProcessSlice = createSlice({
 
 export const { setActivePage, setActiveFilterByGenreType, setActiveFilterByLevelType,
   setError, setQuests, setBackupQuests, setQuestsLoadStatus, setFullQuest, setBookings, setBookingsLoadStatus,
-  setFullQuestLoadStatus, setNeededPage, filterQuests, setActiveBookingId } = questsProcessSlice.actions;
+  setFullQuestLoadStatus, setNeededPage, filterQuests, setActiveBookingId, setReservations, setReservationsLoadStatus } = questsProcessSlice.actions;

@@ -34,5 +34,3 @@ export const filterUniqueAddresses = (data: BookingType[]) => {
 
   return filteredData;
 };
-
-

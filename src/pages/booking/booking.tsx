@@ -60,7 +60,7 @@ export const Booking = () => {
   }, [dispatch, currentId]);
 
   useEffect(() => {
-    setSelectedSlot(null); // Сброс выбранного слота времени
+    setSelectedSlot(null);
   }, [currentBooking]);
 
   if (isFullQuestLoading || fullQuest === null || bookings === null || currentBooking === undefined) {
