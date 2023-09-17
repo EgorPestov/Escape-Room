@@ -1,7 +1,7 @@
 import 'leaflet/dist/leaflet.css';
 import { TileLayer, useMap } from 'react-leaflet';
 import { BookingType } from '../../types';
-import { useEffect } from 'react';
+import { useEffect, memo } from 'react';
 import L from 'leaflet';
 import { Icon } from 'leaflet';
 import { useAppDispatch } from '../../hooks/useAppDispatch/useAppDispatch';
@@ -27,7 +27,7 @@ type MapProps = {
   selectedId: string | undefined;
 };
 
-export const BookingMap = ({ bookings, selectedId }: MapProps) => {
+const BookingMapComponent = ({ bookings, selectedId }: MapProps) => {
   const dispatch = useAppDispatch();
   const activeId = useAppSelector(getActiveBookingId);
   const map = useMap();
@@ -66,3 +66,5 @@ export const BookingMap = ({ bookings, selectedId }: MapProps) => {
     />
   );
 };
+
+export const BookingMap = memo(BookingMapComponent);

@@ -1,7 +1,8 @@
+import { memo } from 'react';
 import { FilterGenreForm } from './filter-genre-form';
 import { FilterLevelForm } from './filter-level-form';
 
-export const FilterForm = () => (
+const FilterFormComponent = () => (
   <div className="page-content__item">
     <form className="filter" action="#" method="get">
       <FilterGenreForm />
@@ -9,3 +10,5 @@ export const FilterForm = () => (
     </form>
   </div>
 );
+
+export const FilterForm = memo(FilterFormComponent);

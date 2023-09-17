@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { NavLink } from 'react-router-dom';
 import { AppRoute, AuthStatus, AppPage } from '../../const';
 import { getStyleForNavLink } from '../../utils';
@@ -9,7 +10,7 @@ import { getAuthStatus } from '../../store/user-process/selectors';
 import { HeaderAuthElement } from './header-auth-element';
 import { HeaderNoAuthElement } from './header-no-auth-element';
 
-export const Header = () => {
+const HeaderComponent = () => {
   const dispatch = useAppDispatch();
   const activePage = useAppSelector(getActivePage);
   const authStatus = useAppSelector(getAuthStatus);
@@ -74,3 +75,5 @@ export const Header = () => {
     </header >
   );
 };
+
+export const Header = memo(HeaderComponent);
