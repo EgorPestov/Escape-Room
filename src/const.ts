@@ -48,17 +48,17 @@ export const APIRoute = {
 export type AppRouteType = typeof APIRoute;
 
 export const LevelFilterTypes = {
-  all: 'любой',
-  easy: 'лёгкий',
-  medium: 'средний',
-  hard: 'сложный',
+  all: 'Любой',
+  easy: 'Лёгкий',
+  medium: 'Средний',
+  hard: 'Сложный',
 } as const;
 
 export type LevelFilterTypeValues = typeof LevelFilterTypes[keyof typeof LevelFilterTypes];
 
-export type LevelFilterTypeKeys = keyof typeof LevelFilterTypes;
+export const LevelFilterNames = ['all', 'easy', 'medium', 'hard'] as const;
 
-export const LevelFilterValues = Object.values(LevelFilterTypes);
+export type LevelFilterTypeKeys = keyof typeof LevelFilterTypes;
 
 export const GenreFilterTypes = {
   'all-quests': 'Все квесты',
