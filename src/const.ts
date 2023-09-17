@@ -69,11 +69,7 @@ export const GenreFilterTypes = {
   'sci-fi': 'Sci-fi',
 } as const;
 
-export type GenreFilterTypeValues = typeof GenreFilterTypes[keyof typeof GenreFilterTypes];
-
 export type GenreFilterTypeKeys = keyof typeof GenreFilterTypes;
-
-export const GenreFilterValues = Object.values(GenreFilterTypes);
 
 export const AuthStatus = {
   Auth: 'AUTH',
