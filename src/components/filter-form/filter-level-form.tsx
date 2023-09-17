@@ -16,8 +16,8 @@ export const FilterLevelForm = () => {
       <ul className="filter__list">
         {LevelFilterNames.map((item) => (
           <li key={item} className="filter__item">
-            <input type="radio" name="level" id={item} onClick={() => handleClick(item)} defaultChecked={item === LevelFilterNames[0]} />
-            <label className="filter__label" htmlFor={item}>
+            <input type="radio" name="level" id={item === LevelFilterNames[0] ? 'any' : item} onClick={() => handleClick(item)} defaultChecked={item === LevelFilterNames[0]} />
+            <label className="filter__label" htmlFor={item === LevelFilterNames[0] ? 'any' : item}>
               <span className="filter__label-text">{LevelFilterTypes[item]}</span>
             </label>
           </li>
