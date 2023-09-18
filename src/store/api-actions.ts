@@ -131,6 +131,7 @@ export const bookQuest = createAsyncThunk<void, BookingData, thunkObjType>(
       dispatch(setActivePage(AppPage.MyQuests));
       dispatch(redirectToRoute(AppRoute.MyQuests));
     } catch {
+      toast.error('Can\'t book quest, please try again');
       throw new Error;
     }
   }
