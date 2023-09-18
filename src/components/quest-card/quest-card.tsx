@@ -1,10 +1,8 @@
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../const';
+import { AppRoute, LevelFilterTypes } from '../../const';
 import { QuestType } from '../../types';
-import { LevelFilterTypes } from '../../const';
 
 type QuestCardProps = QuestType;
-
 
 export const QuestCard = (
   {

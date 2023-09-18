@@ -1,8 +1,7 @@
 import 'leaflet/dist/leaflet.css';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import { Icon } from 'leaflet';
-import { URL_MARKER_ACTIVE, MAP_ZOOM_VALUE_OFFICE, OFFICE_COORDS } from '../../const';
-
+import { URL_MARKER_ACTIVE, MAP_ZOOM_VALUE_OFFICE, OFFICE_COORDS } from '../../../const';
 
 const activeIcon = new Icon({
   iconUrl: URL_MARKER_ACTIVE,

@@ -9,7 +9,6 @@ export const getStyleForNavLink = ({ isActive }: { isActive: boolean }) =>
       cursor: 'pointer',
     };
 
-
 export const formatTime = (timeString: string, date: string) => {
   const now = new Date();
   const [hours, minutes] = timeString.split(':');

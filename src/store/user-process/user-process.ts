@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AuthStatusValuesType, AuthStatus, NameSpace } from '../../const';
-import { UserData } from '../api-actions';
-import { checkAuth, login, logout } from '../api-actions';
+import { UserData, checkAuth, login, logout } from '../api-actions';
 
 type UserProcessType = {
   authorizationStatus: AuthStatusValuesType;

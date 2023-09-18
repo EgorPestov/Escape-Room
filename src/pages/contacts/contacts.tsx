@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import { Header } from '../../components/header/header';
 import { Footer } from '../../components/footer/footer';
-import { ContactsMap } from '../../components/maps/contacts-map';
+import { ContactsMap } from '../../components/maps/contacts-map/contacts-map';
 
 export const Contacts = () => (
   <div className="wrapper">

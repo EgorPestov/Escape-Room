@@ -20,7 +20,6 @@ export const Main = () => {
     dispatch(filterQuests());
   }, [dispatch]);
 
-
   return (
     <div className="wrapper">
       <Helmet>

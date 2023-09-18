@@ -1,14 +1,13 @@
 import 'leaflet/dist/leaflet.css';
 import { TileLayer, useMap } from 'react-leaflet';
-import { BookingType } from '../../types';
 import { useEffect, memo } from 'react';
-import L from 'leaflet';
-import { Icon } from 'leaflet';
-import { useAppDispatch } from '../../hooks/useAppDispatch/useAppDispatch';
-import { setActiveBookingId } from '../../store/quests-process/quests-process';
-import { getActiveBookingId } from '../../store/quests-process/selectors';
-import { URL_MARKER_ACTIVE, URL_MARKER_DEFAULT, MAP_ZOOM_VALUE_CITY } from '../../const';
-import { useAppSelector } from '../../hooks/useAppSelector/useAppSelector';
+import L, { Icon } from 'leaflet';
+import { BookingType } from '../../../types';
+import { useAppDispatch } from '../../../hooks/useAppDispatch/useAppDispatch';
+import { setActiveBookingId } from '../../../store/quests-process/quests-process';
+import { getActiveBookingId } from '../../../store/quests-process/selectors';
+import { URL_MARKER_ACTIVE, URL_MARKER_DEFAULT, MAP_ZOOM_VALUE_CITY } from '../../../const';
+import { useAppSelector } from '../../../hooks/useAppSelector/useAppSelector';
 
 const defaultIcon = new Icon({
   iconUrl: URL_MARKER_DEFAULT,

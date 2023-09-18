@@ -1,7 +1,7 @@
 import { useLayoutEffect } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
 import { Route, Routes } from 'react-router-dom';
-import { AppRoute } from '../../const';
+import { AppRoute, AuthStatus } from '../../const';
 import { Main } from '../../pages/main/main';
 import { NotFound } from '../../pages/404/404';
 import { Login } from '../../pages/login/login';
@@ -18,7 +18,6 @@ import { getAuthStatus } from '../../store/user-process/selectors';
 import { PrivateLoginRoute } from '../private-routes/private-login-route/private-login-route';
 import { PrivateBookingRoute } from '../private-routes/private-booking-route/private-booking-route';
 import { LoadingScreen } from '../loading-screen/loading-screen';
-import { AuthStatus } from '../../const';
 import { ErrorScreen } from '../error-screen/error-screen';
 
 export const App = () => {

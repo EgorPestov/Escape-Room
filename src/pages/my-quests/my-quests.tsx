@@ -1,7 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import { useLayoutEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../const';
 import { Header } from '../../components/header/header';
 import { Footer } from '../../components/footer/footer';
 import { deleteReservation, fetchReservations } from '../../store/api-actions';
@@ -9,7 +8,7 @@ import { useAppDispatch } from '../../hooks/useAppDispatch/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector/useAppSelector';
 import { getReservations, getReservationsLoadStatus } from '../../store/quests-process/selectors';
 import { LoadingScreen } from '../../components/loading-screen/loading-screen';
-import { DateTranslates, LevelFilterTypes } from '../../const';
+import { DateTranslates, LevelFilterTypes, AppRoute } from '../../const';
 
 export const MyQuests = () => {
   const dispatch = useAppDispatch();
