@@ -45,7 +45,7 @@ export const APIRoute = {
   Logout: '/logout',
 } as const;
 
-export type AppRouteType = typeof APIRoute;
+export type AppRouteType = typeof AppRoute;
 
 export const LevelFilterTypes = {
   all: 'Любой',
